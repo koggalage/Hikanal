@@ -1,17 +1,32 @@
 <html>
   <head>
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
 <body>
-  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
   <div id="map-canvas"></div>
+        
+      </div>
+      <div class="col-md-6">
+        
   <div id="map-canvas2"></div>
+      </div>
+    </div>
+  </div>
 </body>
 
 <style>
-html, body, #map-canvas {
+#map-canvas2 {
     height: 100%;
-    width: 70%;
+    width: 80%;
+    margin: 0px;
+    padding: 50px
+}
+#map-canvas {
+    height: 100%;
+    width: 100%;
     margin: 0px;
     padding: 0px
 }
@@ -51,10 +66,10 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
       var tileWidth = (northEast.lng() - southWest.lng()) / numberOfParts;
       var tileHeight = (northEast.lat() - southWest.lat()) / numberOfParts;
 
-      console.log("northEast.lng()", northEast.lng());
-      console.log("southWest.lng()", southWest.lng());
-      console.log("tileWidth", tileWidth);
-      console.log("tileHeight", tileHeight);
+      // console.log("northEast.lng()", northEast.lng());
+      // console.log("southWest.lng()", southWest.lng());
+      // console.log("tileWidth", tileWidth);
+      // console.log("tileHeight", tileHeight);
       //console.log("northEast", northEast);
 
       for (var x = 0; x < numberOfParts; x++) {
@@ -66,7 +81,7 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
             west: southWest.lng() + (tileWidth * x)
           };
 
-          console.log("areaBounds.north", areaBounds.north);
+          // console.log("areaBounds.north", areaBounds.north);
           // console.log("southWest.lng()", southWest.lng());
           // console.log("tileWidth", tileWidth);
           // console.log("tileHeight", tileHeight);
@@ -109,8 +124,6 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
       // var centerLng = 80.850632;
 
       function initMap(centerLat, centerLng) {
-        console.log(centerLat);
-        console.log(centerLng);
         map = new google.maps.Map(document.getElementById('map-canvas'), {
           center: {lat: centerLat, lng: centerLng},
           zoom: 10
@@ -118,9 +131,9 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
 
         var bounds = {
           north: centerLat - 0.1,
-          south: centerLat  - 0.3,
+          south: centerLat  - 0.2,
           east: centerLng  - 0.1,
-          west: centerLng  - 0.3
+          west: centerLng  - 0.2
         };
 
         // Define the rectangle and set its editable property to true.
@@ -133,7 +146,11 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
         rectangle.setMap(map);
 
         // Add an event listener on the rectangle.
-        rectangle.addListener('bounds_changed', showNewRect);
+        // rectangle.addListener('bounds_changed', showNewRect);
+        rectangle.addListener('bounds_changed', showSelectedArea);
+        // rectangle.addListener('bounds_changed', function(e) {
+        //     showSelectedArea(e.latLng, map);
+        // });
 
         // Define an info window on the map.
         infoWindow = new google.maps.InfoWindow();
@@ -155,6 +172,35 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
 
         infoWindow.open(map);
       }   
+        function showSelectedArea(event) {
+            var nEast = rectangle.getBounds().getNorthEast();
+            var sWest = rectangle.getBounds().getSouthWest();
+            // console.log(nEast.lat());
+            // console.log(sWest);
+            // var areaBounds2 = {
+            //         north: nEast.lat(),
+            //         south: sWest.lat(),
+            //         east: nEast.lng(),
+            //         west: sWest.lng()
+            //     };
+            // var areaBounds3 = {
+            //         north: 7.947435947273361,
+            //         south: 7.84743594727336,
+            //         east: 80.9978243828125,
+            //         west: 80.85387907031259
+            //     };
+            var bounds = new google.maps.LatLngBounds(sWest,nEast);
+            // bounds.extend(loc)
+            map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
+                        // center: {lat: centerLat, lng: centerLng},
+                        // zoom: 14
+            });
+            map2.fitBounds(bounds);
+            // map2.setZoom(map2.getZoom()+1);
+            // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+            //   map.setZoom(map.getZoom()+1);
+            // })
+      }
 
 google.maps.event.addDomListener(window, "load", initialize); 
 </script>
