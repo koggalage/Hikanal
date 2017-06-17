@@ -50,30 +50,94 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
     google.maps.event.addListenerOnce(map, 'idle', function() {
       drawRectangle(map);
     });
+    
     function drawRectangle(map) {
-      var bounds = map.getBounds();
-      var southWest = bounds.getSouthWest();
-      var northEast = bounds.getNorthEast();
-      var numberOfParts = 6;
-      var tileWidth = (northEast.lng() - southWest.lng()) / numberOfParts;
-      var tileHeight = (northEast.lat() - southWest.lat()) / numberOfParts;
-      // console.log("northEast.lng()", northEast.lng());
-      // console.log("southWest.lng()", southWest.lng());
-      // console.log("tileWidth", tileWidth);
-      // console.log("tileHeight", tileHeight);
-      //console.log("northEast", northEast);
-      for (var x = 0; x < numberOfParts; x++) {
-        for (var y = 0; y < numberOfParts; y++) {
+
+      var southWestLat = 7.45282838800632;
+      var southWestLng = 80.7737578865776;
+      var northEastLat = 8.13087938800633;
+      var northEastLng = 81.8676373865776;
+
+      var numberOfParts = 3;
+
+      var tileWidth = (northEastLng - southWestLng) / numberOfParts;
+      var tileHeight = (northEastLat - southWestLat) / numberOfParts;
+
+      var mapRow1Lat = [
+          "6.096726388006320",
+          "5.870709388006320",
+          "5.870709388006320",
+          "5.870709388006320",
+          "6.096726388006320",
+          "6.322743388006320",
+          "7.452828388006320",
+          "9.351371188006320"
+      ];
+
+      var mapRow1Lng = [
+          "79.679878386577600",
+          "80.044504886577600",
+          "80.409131386577600",
+          "80.773757886577600",
+          "81.138384386577600",
+          "81.503010886577600",
+          "81.503010886577600",
+          "79.388177186577600"
+      ];
+      var z;
+      for (var x = 0; x < 7; x++) {
+
+        if(x == 0 || x == 2) {
+          numberOfBoxes = 17;
+        }
+
+        else if(x == 1) {
+          numberOfBoxes = 18;
+        }
+
+        else if(x == 3) {
+          numberOfBoxes = 16;
+        }
+
+        else if(x == 4) {
+          numberOfBoxes = 12;
+        }
+
+        else if(x == 5) {
+          numberOfBoxes = 8;
+        }
+
+        else if(x == 6) {
+          numberOfBoxes = 1;
+        }
+
+       for (var y = 0; y < numberOfBoxes; y++ ) {
+        console.log("x", x);
+        console.log("y", y);
+
+        if (x == 5 && (y == 2 || y == 3 || y == 4)) {
+          drawLengthyRectangle(map);
+        }
+
+        else {
+
+        var latCurrent = parseFloat(mapRow1Lat[x]);
+        if(x >0) {
+           z = x-x;
+        }
+
+        else {
+          z = x;
+        }
+        var lngCurrent = parseFloat(mapRow1Lng[z]);
+
           var areaBounds = {
-            north: southWest.lat() + (tileHeight * (y+1)),
-            south: southWest.lat() + (tileHeight * y),
-            east: southWest.lng() + (tileWidth * (x+1)),
-            west: southWest.lng() + (tileWidth * x)
-          };
-          // console.log("areaBounds.north", areaBounds.north);
-          // console.log("southWest.lng()", southWest.lng());
-          // console.log("tileWidth", tileWidth);
-          // console.log("tileHeight", tileHeight);
+              north: latCurrent + (tileHeight * (y+1)),
+              south: latCurrent + (tileHeight * y),
+              east: lngCurrent + (tileWidth * (x+1)),
+              west: lngCurrent + (tileWidth * x)
+            };
+
           var area = new google.maps.Rectangle({
             strokeColor: '#FF0000',
             //strokeOpacity: 0.8,
@@ -83,15 +147,16 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
             map: map,
             bounds: areaBounds
           });
+
           var centerMark = new google.maps.Marker({
           position: area.getBounds().getCenter(),
           map: map,
           area: areaBounds,
           title: area.getBounds().getCenter().toUrlValue(6)
           });
+
           google.maps.event.addListener(centerMark, 'click', function(evt) {
-            // console.log(this.position.lat());
-            // console.log(this.position.lng());
+
             initMap(this.position.lat(), this.position.lng());
             // map.fitBounds(this.area);
             // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
@@ -100,8 +165,60 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
               
           });
         }
+        }
       }
-    }   
+    } 
+
+    function drawLengthyRectangle(map) {
+
+      var southWestLat = 6.77477738800632;
+      var southWestLng = 81.5030108865776;
+      var northEastLat = 7.00079438800632;
+      var northEastLng = 81.8849571453276;
+
+      var numberOfParts = 1;
+
+      var tileWidth = (northEastLng - southWestLng) / numberOfParts;
+      var tileHeight = (northEastLat - southWestLat) / numberOfParts;
+
+      for (var x = 0; x < 1; x++) {
+       for (var y = 0; y < 3; y++ ) {
+          var areaBounds = {
+              north: southWestLat + (tileHeight * (y+1)),
+              south: southWestLat + (tileHeight * y),
+              east: southWestLng + (tileWidth * (x+1)),
+              west: southWestLng + (tileWidth * x)
+            };
+
+          var area = new google.maps.Rectangle({
+            strokeColor: '#FF0000',
+            //strokeOpacity: 0.8,
+            strokeWeight: 2,
+            //fillColor: '#FF0000',
+            //fillOpacity: 0.35,
+            map: map,
+            bounds: areaBounds
+          });
+
+          var centerMark = new google.maps.Marker({
+          position: area.getBounds().getCenter(),
+          map: map,
+          area: areaBounds,
+          title: area.getBounds().getCenter().toUrlValue(6)
+          });
+
+          google.maps.event.addListener(centerMark, 'click', function(evt) {
+
+            initMap(this.position.lat(), this.position.lng());
+            // map.fitBounds(this.area);
+            // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+            //   map.setZoom(map.getZoom()+1);
+            // })
+              
+          });
+        }
+       }
+      }    
   }
       var rectangle;
       var map;
