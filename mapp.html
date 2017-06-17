@@ -63,28 +63,36 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
       var tileWidth = (northEastLng - southWestLng) / numberOfParts;
       var tileHeight = (northEastLat - southWestLat) / numberOfParts;
 
-      var mapRow1Lat = [
+      var southEastLat = [
           "6.096726388006320",
           "5.870709388006320",
           "5.870709388006320",
           "5.870709388006320",
           "6.096726388006320",
           "6.322743388006320",
-          "7.452828388006320",
           "9.351371188006320"
       ];
 
-      var mapRow1Lng = [
+      var southEastLng = [
           "79.679878386577600",
           "80.044504886577600",
           "80.409131386577600",
           "80.773757886577600",
           "81.138384386577600",
           "81.503010886577600",
-          "81.503010886577600",
-          "79.388177186577600"
+          "79.388177186577600" 
       ];
+
+      var mapNumbers = ["85", "79", "73", "66", "59", "52", "46", "40", "34", "29", "24", "19", "15", "11", "07", "03", "01", "90", "86", "80", "74", "67", "60", "53", "47", "41", "35", "30", "25", "20", "16", "12", "08", "04", "02", "91", "87", "81", "75", "68", "61", "54", "48", "42", "36", "31", "26", "21", "17", "13", 
+      "09", "05", "92", "88", "82", "76", "69", "62", "55", "49", "43", "37", "32", "27", "22", "18", "14", "10",  "89", "83", "77", "70", "63", "56", "50", "44", "38", "33", "28", "23", "84", "78", "51", "45", "39", "06"];
+
+      //var lengthyMapNumbers = ["71-72", "64-65", "57-58"];
+
       var z;
+      var t;
+      var count = 0;
+      //var countLengthy = 0;
+
       for (var x = 0; x < 7; x++) {
 
         if(x == 0 || x == 2) {
@@ -112,8 +120,6 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
         }
 
        for (var y = 0; y < numberOfBoxes; y++ ) {
-        console.log("x", x);
-        console.log("y", y);
 
         if (x == 5 && (y == 2 || y == 3 || y == 4)) {
           drawLengthyRectangle(map);
@@ -121,21 +127,31 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
 
         else {
 
-        var latCurrent = parseFloat(mapRow1Lat[x]);
-        if(x >0) {
+        var latCurrent = parseFloat(southEastLat[x]);
+        if(x >0 && x != 6) {
            z = x-x;
         }
 
         else {
           z = x;
         }
-        var lngCurrent = parseFloat(mapRow1Lng[z]);
+
+        if(x == 6) {
+           t = x - x;
+        }
+
+        else {
+          t = x;
+        }
+        console.log("x", x);
+        console.log("z", z);
+        var lngCurrent = parseFloat(southEastLng[z]);
 
           var areaBounds = {
               north: latCurrent + (tileHeight * (y+1)),
               south: latCurrent + (tileHeight * y),
-              east: lngCurrent + (tileWidth * (x+1)),
-              west: lngCurrent + (tileWidth * x)
+              east: lngCurrent + (tileWidth * (t+1)),
+              west: lngCurrent + (tileWidth * t)
             };
 
           var area = new google.maps.Rectangle({
@@ -152,7 +168,7 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
           position: area.getBounds().getCenter(),
           map: map,
           area: areaBounds,
-          title: area.getBounds().getCenter().toUrlValue(6)
+          title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
           });
 
           google.maps.event.addListener(centerMark, 'click', function(evt) {
@@ -164,6 +180,7 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
             // })
               
           });
+          count++;
         }
         }
       }
@@ -268,20 +285,7 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
         function showSelectedArea(event) {
             var nEast = rectangle.getBounds().getNorthEast();
             var sWest = rectangle.getBounds().getSouthWest();
-            // console.log(nEast.lat());
-            // console.log(sWest);
-            // var areaBounds2 = {
-            //         north: nEast.lat(),
-            //         south: sWest.lat(),
-            //         east: nEast.lng(),
-            //         west: sWest.lng()
-            //     };
-            // var areaBounds3 = {
-            //         north: 7.947435947273361,
-            //         south: 7.84743594727336,
-            //         east: 80.9978243828125,
-            //         west: 80.85387907031259
-            //     };
+            
             var bounds = new google.maps.LatLngBounds(sWest,nEast);
             // bounds.extend(loc)
             map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
