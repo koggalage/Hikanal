@@ -19,16 +19,19 @@
 
 <style>
 #map-canvas2 {
-    height: 100%;
-    width: 80%;
-    margin: 0px;
-    padding: 50px
+    height: 500px;
+    width: 500px;
+    margin: 10%;
+    padding: 10%
 }
 #map-canvas {
     height: 100%;
     width: 100%;
     margin: 0px;
     padding: 0px
+}
+#map-canvas2 {
+    position: relative;
 }
 </style>
 
@@ -291,9 +294,13 @@ myLatlng = new google.maps.LatLng(7.884472, 80.850632);
             map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
                         // center: {lat: centerLat, lng: centerLng},
                         // zoom: 14
+                        scrollwheel: false,
+                        draggable: false
+
             });
             map2.fitBounds(bounds);
-            // map2.setZoom(map2.getZoom()+1);
+            google.maps.event.trigger(map2, 'resize');
+            map2.setZoom(map2.getZoom()+1);
             // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
             //   map.setZoom(map.getZoom()+1);
             // })
