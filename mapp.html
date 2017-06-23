@@ -195,7 +195,7 @@ count++;
 }
 }
 }
-} 
+}
 
 function drawLengthyRectangle(map) {
 
@@ -296,7 +296,7 @@ var infoWindow;
     function showSelectedArea(event) {
         var nEast = rectangle.getBounds().getNorthEast();
         var sWest = rectangle.getBounds().getSouthWest();
-        var nWest = rectangle.getBounds().getNorthWest();
+        // var nWest = rectangle.getBounds().getNorthWest();
 
         var bounds = new google.maps.LatLngBounds(sWest,nEast);
             // bounds.extend(loc)
@@ -317,38 +317,60 @@ var infoWindow;
             // var xxx = map2.getDiv();
             // console.log(x);
             // document.getElementById('map-canvas2').innerHTML = xxx;
-            google.maps.event.trigger(map2, 'resize');
-            // map2.setZoom(map2.getZoom()+1);
+            // google.maps.event.trigger(map2, 'resize');ssss
+            map2.setZoom(map2.getZoom()+1);
 
 
-        var flightPlanCoordinates = [
-          {lat: 8.906743903789346, lng: 81.45415710923385},
-          {lat: 8.706743903789346, lng: 81.35415710923385}
-        ];
+        // var flightPlanCoordinates = [
+        //   {lat: 8.906743903789346, lng: 81.45415710923385},
+        //   {lat: 8.706743903789346, lng: 81.35415710923385}
+        // ];
 
-            var latn = nEast.lat(); 
-            var lats = sWest.lat();
-            var lnge = nEast.lng()
-            var lngw = sWest.lng()
+            //northwest corner
+            var latnWest = nEast.lat(); 
+            var lngnWest = sWest.lng();
+
+            //southwest corner
+            var latsWest = sWest.lat();
+            var lngsWest = sWest.lng();
+
+            //northeast corner
+            var latnEast = nEast.lat(); 
+            var lngnEast = nEast.lng();
 
         for (var i = 0; i <= 10; i++) {
 
             var linecordinates = [
-              {lat : (latn + (0.1 * i)), lng: (lnge + (0.1 * i))},
-              {lat : (lats + (0.1 * i)), lng: (lngw + (0.1 * i))}
+              {lat : (latnWest /*+ (0.1 * i)*/), lng: (lngnWest + (0.05 * i))},
+              {lat : (latsWest /*+ (0.1 * i)*/), lng: (lngsWest + (0.05 * i))}
             ];
 
-            console.log(nWest);
+            var linecordinates2 = [
+              {lat : (latnWest - (0.05 * i)), lng: lngnWest},
+              {lat : (latnEast - (0.05 * i)), lng: lngnEast}
+            ];
+
+            // console.log(nWest);
 
             var gridline = new google.maps.Polyline({
               path: linecordinates,
               geodesic: true,
               strokeColor: '#000000',
               strokeOpacity: 1.0,
-              strokeWeight: 2
+              strokeWeight: 1
             });
             
             gridline.setMap(map2);
+
+            var gridline2 = new google.maps.Polyline({
+              path: linecordinates2,
+              geodesic: true,
+              strokeColor: '#000000',
+              strokeOpacity: 1.0,
+              strokeWeight: 1
+            });
+            
+            gridline2.setMap(map2);
         }
         }
         google.maps.event.addDomListener(window, "load", initialize); 
