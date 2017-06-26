@@ -154,8 +154,8 @@
  else {
   t = x;
 }
-console.log("x", x);
-console.log("z", z);
+/*console.log("x", x);
+console.log("z", z);*/
 var lngCurrent = parseFloat(southEastLng[z]);
 
 var areaBounds = {
@@ -273,7 +273,7 @@ var infoWindow;
         rectangle.setMap(map);
         // Add an event listener on the rectangle.
         rectangle.addListener('bounds_changed', showNewRect);
-        rectangle.addListener('bounds_changed', showSelectedArea);
+        rectangle.addListener('bounds_changed', showSelectedAreaWithGrid);
         // rectangle.addListener('bounds_changed', function(e) {
         //     showSelectedArea(e.latLng, map);
         // });
@@ -311,7 +311,7 @@ var infoWindow;
                         // scaleControl: false,
                         // navigationControl: false,
                         // mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        disableDefaultUI: true
+                        disableDefaultUI: false
                     });
             map2.fitBounds(bounds);
             // var xxx = map2.getDiv();
@@ -338,7 +338,7 @@ var infoWindow;
             var latnEast = nEast.lat(); 
             var lngnEast = nEast.lng();
 
-        for (var i = 0; i <= 10; i++) {
+        for (var i = 0; i <= 50; i++) {
 
             var linecordinates = [
               {lat : (latnWest /*+ (0.1 * i)*/), lng: (lngnWest + (0.05 * i))},
@@ -352,27 +352,117 @@ var infoWindow;
 
             // console.log(nWest);
 
+              var str = 1;
+            if(i%10 == 0) {
+              str = 2;
+            }
+
             var gridline = new google.maps.Polyline({
               path: linecordinates,
               geodesic: true,
-              strokeColor: '#000000',
+              strokeColor: '#FFFFFF',
               strokeOpacity: 1.0,
-              strokeWeight: 1
+              strokeWeight: str
             });
+
+
             
             gridline.setMap(map2);
 
             var gridline2 = new google.maps.Polyline({
               path: linecordinates2,
               geodesic: true,
-              strokeColor: '#000000',
+              strokeColor: '#FFFFFF',
               strokeOpacity: 1.0,
-              strokeWeight: 1
+              strokeWeight: str
             });
             
             gridline2.setMap(map2);
         }
         }
+
+
+        function showSelectedAreaWithGrid(event) {
+        var nEast = rectangle.getBounds().getNorthEast();
+        var sWest = rectangle.getBounds().getSouthWest();
+
+        var bounds = new google.maps.LatLngBounds(sWest,nEast);
+        
+        map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
+                        scrollwheel: false,
+                        draggable: false,
+                        disableDoubleClickZoom: true,
+                        disableDefaultUI: false
+        });
+            
+        map2.fitBounds(bounds);
+        map2.setZoom(map2.getZoom()+1);
+
+        //northwest corner
+        var latnWest = "9.93901538800632"; /*nEast.lat();*/ 
+        var lngnWest = "79.6798783865776"; /*sWest.lng();*/
+
+        //southwest corner
+        var latsWest = "5.87070938800632"; /*sWest.lat();*/
+        var lngsWest = "79.6798783865776"; /*sWest.lng();*/
+
+        //northeast corner
+        var latnEast = "9.93901538800632"; /*nEast.lat();*/  
+        var lngnEast = "81.5030108865776"; /*nEast.lng();*/
+
+        var numberOfVerticalLines = 40;
+        var numberOfHorizontalLines = 25;
+        var topLat = "6.32274338800632";
+        var bottomLat = "6.09672638800632";
+        var rightLong = "80.0445048865776";
+        var leftLong = "79.6798783865776";
+
+
+        var verticalGap = (topLat - bottomLat) / numberOfHorizontalLines;
+        var horizontalGap = (rightLong - leftLong) / numberOfVerticalLines;
+
+        console.log("verticalGap", verticalGap);
+        console.log("horizontalGap", horizontalGap);
+
+        for (var i = 0; i <= 50; i++) {
+
+        var linecordinates = [
+            {lat : (latnWest /*+ (0.1 * i)*/), lng: (lngnWest + (verticalGap * i))},
+            {lat : (latsWest /*+ (0.1 * i)*/), lng: (lngsWest + (verticalGap * i))}
+        ];
+
+        var linecordinates2 = [
+            {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
+            {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
+        ];
+
+        var str = 1;
+
+        if(i%10 == 0) {
+          str = 2;
+        }
+
+        var gridline = new google.maps.Polyline({
+              path: linecordinates,
+              geodesic: true,
+              strokeColor: '#FFFFFF',
+              strokeOpacity: 1.0,
+              strokeWeight: str
+        });
+
+        gridline.setMap(map2);
+
+        var gridline2 = new google.maps.Polyline({
+              path: linecordinates2,
+              geodesic: true,
+              strokeColor: '#FFFFFF',
+              strokeOpacity: 1.0,
+              strokeWeight: str
+        });
+            
+        gridline2.setMap(map2);
+      }
+    }
         google.maps.event.addDomListener(window, "load", initialize); 
     </script>
 
