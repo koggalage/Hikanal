@@ -1,18 +1,27 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="html2canvas.js"></script>
+    <script type="text/javascript" src="http://www.nihilogic.dk/labs/canvas2image/base64.js"></script>
+    <script type="text/javascript" src="http://www.nihilogic.dk/labs/canvas2image/canvas2image.js"></script>
 </head>
 <body>
   <div class="container">
+  <button id="btnSave"> save</button>
     <div class="row">
       <div class="col-md-6">
           <div id="map-canvas"></div>
 
       </div>
       <div class="col-md-6">
+      <div id="map-canvas2-wrapper">
 
           <div id="map-canvas2"></div>
       </div>
+      </div>
+    </div>
+    <div id="diagram_image">
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -21,16 +30,22 @@
       </div>
   </div>
 </div>
+<!-- <canvas id="draw-canvas" style="border:2px solid black;" width="5000px" height="5000px"></canvas> -->
 </body>
-
-
 
 <style>
     #map-canvas2 {
-        height: 500px;
-        width: 500px;
-        margin: 10%;
-        padding: 10%
+        height: 5000px;
+        width: 5000px;
+/*        margin: 0%;
+        padding: 0%;*/
+    }
+    #map-canvas2-wrapper {
+        height: 100%;
+        width: 100%;
+/*        margin: 10%;
+        padding: 10%;*/
+        overflow: auto;
     }
     #map-canvas {
         height: 100%;
@@ -154,8 +169,8 @@
  else {
   t = x;
 }
-console.log("x", x);
-console.log("z", z);
+// console.log("x", x);
+// console.log("z", z);
 var lngCurrent = parseFloat(southEastLng[z]);
 
 var areaBounds = {
@@ -318,7 +333,7 @@ var infoWindow;
             // console.log(x);
             // document.getElementById('map-canvas2').innerHTML = xxx;
             // google.maps.event.trigger(map2, 'resize');ssss
-            map2.setZoom(map2.getZoom()+1);
+            map2.setZoom(map2.getZoom()+2);
 
 
         // var flightPlanCoordinates = [
@@ -373,6 +388,43 @@ var infoWindow;
             gridline2.setMap(map2);
         }
         }
+
+        function dl() {
+          var canvas = document.getElementById("draw-canvas");
+  canvas.width = 5000;
+  canvas.height = 5000;
+          var ctx = canvas.getContext("2d");
+
+          var data = "<svg xmlns='http://www.w3.org/2000/svg' width='5000px' height='5000px'>" +
+              "<foreignObject width='100%' height='100%'>" +
+              "<div xmlns='http://www.w3.org/1999/xhtml'>" +
+              
+              document.getElementById('map-canvas2-wrapper').innerHTML +
+              
+              "</div>" +
+              "</foreignObject>" +
+              "</svg>";
+
+          document.getElementById('diagram_image').innerHTML =data;
+        }
+
+        $(function() { 
+            $("#btnSave").click(function() { 
+                html2canvas($("#map-canvas2-wrapper"), {
+                    onrendered: function(canvas) {
+                        theCanvas = canvas;
+                        document.body.appendChild(canvas);
+
+                        // Convert and download as image 
+                        Canvas2Image.saveAsPNG(canvas); 
+                        $("#img-out").append(canvas);
+                        // Clean up 
+                        //document.body.removeChild(canvas);
+                    }
+                });
+            });
+        }); 
+
         google.maps.event.addDomListener(window, "load", initialize); 
     </script>
 
