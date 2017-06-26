@@ -8,22 +8,22 @@
 </head>
 <body>
   <div class="container">
-  <button id="btnSave"> save</button>
-    <div class="row">
-      <div class="col-md-6">
-          <div id="map-canvas"></div>
+      <button id="btnSave"> save</button>
+      <div class="row">
+          <div class="col-md-6">
+              <div id="map-canvas"></div>
 
-      </div>
-      <div class="col-md-6">
-      <div id="map-canvas2-wrapper">
+          </div>
+          <div class="col-md-6">
+              <div id="map-canvas2-wrapper">
 
-          <div id="map-canvas2"></div>
+                  <div id="map-canvas2"></div>
+              </div>
+          </div>
       </div>
+      <div id="diagram_image">
       </div>
-    </div>
-    <div id="diagram_image">
-    </div>
-    <div class="row">
+      <div class="row">
         <div class="col-md-6">
 
           <div id="map-canvas3"></div>
@@ -38,24 +38,24 @@
         height: 2750px;
         width: 4400px;
 /*        margin: 0%;
-        padding: 0%;*/
-    }
-    #map-canvas2-wrapper {
-        height: 100%;
-        width: 100%;
+padding: 0%;*/
+}
+#map-canvas2-wrapper {
+    height: 100%;
+    width: 100%;
 /*        margin: 10%;
-        padding: 10%;*/
-        overflow: auto;
-    }
-    #map-canvas {
-        height: 100%;
-        width: 100%;
-        margin: 0px;
-        padding: 0px
-    }
-    #map-canvas2 {
-        position: relative;
-    }
+padding: 10%;*/
+overflow: auto;
+}
+#map-canvas {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px
+}
+#map-canvas2 {
+    position: relative;
+}
 </style>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxJt45HSxnhUn26cibrRrQin578_9T-Yg"></script>
@@ -72,226 +72,211 @@
             center: myLatlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListenerOnce(map, 'idle', function() {
             drawRectangle(map);
         });
 
-      function drawRectangle(map) {
+        function drawRectangle(map) {
 
-          var southWestLat = 7.45282838800632;
-          var southWestLng = 80.7737578865776;
-          var northEastLat = 8.13087938800633;
-          var northEastLng = 81.8676373865776;
+            var southWestLat = 7.45282838800632;
+            var southWestLng = 80.7737578865776;
+            var northEastLat = 8.13087938800633;
+            var northEastLng = 81.8676373865776;
 
-          var numberOfParts = 3;
+            var numberOfParts = 3;
 
-          var tileWidth = (northEastLng - southWestLng) / numberOfParts;
-          var tileHeight = (northEastLat - southWestLat) / numberOfParts;
+            var tileWidth = (northEastLng - southWestLng) / numberOfParts;
+            var tileHeight = (northEastLat - southWestLat) / numberOfParts;
 
-          var southEastLat = [
-          "6.096726388006320",
-          "5.870709388006320",
-          "5.870709388006320",
-          "5.870709388006320",
-          "6.096726388006320",
-          "6.322743388006320",
-          "9.351371188006320"
-          ];
+            var southEastLat = [
+                "6.096726388006320",
+                "5.870709388006320",
+                "5.870709388006320",
+                "5.870709388006320",
+                "6.096726388006320",
+                "6.322743388006320",
+                "9.351371188006320"
+            ];
 
-          var southEastLng = [
-          "79.679878386577600",
-          "80.044504886577600",
-          "80.409131386577600",
-          "80.773757886577600",
-          "81.138384386577600",
-          "81.503010886577600",
-          "79.388177186577600" 
-          ];
+            var southEastLng = [
+                "79.679878386577600",
+                "80.044504886577600",
+                "80.409131386577600",
+                "80.773757886577600",
+                "81.138384386577600",
+                "81.503010886577600",
+                "79.388177186577600" 
+            ];
 
-          var mapNumbers = ["85", "79", "73", "66", "59", "52", "46", "40", "34", "29", "24", "19", "15", "11", "07", "03", "01", "90", "86", "80", "74", "67", "60", "53", "47", "41", "35", "30", "25", "20", "16", "12", "08", "04", "02", "91", "87", "81", "75", "68", "61", "54", "48", "42", "36", "31", "26", "21", "17", "13", 
-          "09", "05", "92", "88", "82", "76", "69", "62", "55", "49", "43", "37", "32", "27", "22", "18", "14", "10",  "89", "83", "77", "70", "63", "56", "50", "44", "38", "33", "28", "23", "84", "78", "51", "45", "39", "06"];
+            var mapNumbers = ["85", "79", "73", "66", "59", "52", "46", "40", "34", "29", "24", "19", "15", "11", "07", "03", "01", "90", "86", "80", "74", "67", "60", "53", "47", "41", "35", "30", "25", "20", "16", "12", "08", "04", "02", "91", "87", "81", "75", "68", "61", "54", "48", "42", "36", "31", "26", "21", "17", "13", "09", "05", "92", "88", "82", "76", "69", "62", "55", "49", "43", "37", "32", "27", "22", "18", "14", "10",  "89", "83", "77", "70", "63", "56", "50", "44", "38", "33", "28", "23", "84", "78", "51", "45", "39", "06"];
 
-      //var lengthyMapNumbers = ["71-72", "64-65", "57-58"];
+            var z;
+            var t;
+            var count = 0;
 
-      var z;
-      var t;
-      var count = 0;
-      //var countLengthy = 0;
+            for (var x = 0; x < 7; x++) {
 
-        for (var x = 0; x < 7; x++) {
+                if(x == 0 || x == 2) {
+                    numberOfBoxes = 17;
+                }
+                else if(x == 1) {
+                    numberOfBoxes = 18;
+                }
 
-            if(x == 0 || x == 2) {
-              numberOfBoxes = 17;
+                else if(x == 3) {
+                    numberOfBoxes = 16;
+                }
+
+                else if(x == 4) {
+                    numberOfBoxes = 12;
+                }
+
+                else if(x == 5) {
+                    numberOfBoxes = 8;
+                }
+
+                else if(x == 6) {
+                    numberOfBoxes = 1;
+                }
+
+                for (var y = 0; y < numberOfBoxes; y++ ) {
+
+                    if (x == 5 && (y == 2 || y == 3 || y == 4)) {
+                        drawLengthyRectangle(map);
+                    }
+
+                    else {
+
+                        var latCurrent = parseFloat(southEastLat[x]);
+                        if(x >0 && x != 6) {
+                            z = x-x;
+                        }
+                        else {
+                            z = x;
+                        }
+                        if(x == 6) {
+                            t = x - x;
+                        }
+                        else {
+                            t = x;
+                        }
+                        var lngCurrent = parseFloat(southEastLng[z]);
+                        var areaBounds = {
+                            north: latCurrent + (tileHeight * (y+1)),
+                            south: latCurrent + (tileHeight * y),
+                            east: lngCurrent + (tileWidth * (t+1)),
+                            west: lngCurrent + (tileWidth * t)
+                        };
+
+                        var area = new google.maps.Rectangle({
+                        strokeColor: '#000000',
+                            strokeWeight: 0.5,
+                            map: map,
+                            bounds: areaBounds
+                        });
+
+                        var centerMark = new google.maps.Marker({
+                            position: area.getBounds().getCenter(),
+                            map: map,
+                            area: areaBounds,
+                            label: mapNumbers[count],
+                            title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
+                        });
+
+                        google.maps.event.addListener(centerMark, 'click', function(evt) {
+                            initMap(this.position.lat(), this.position.lng(), this.area);
+                        });
+                        count++;
+                    }
+                }
             }
+        }
 
-            else if(x == 1) {
-                numberOfBoxes = 18;
+        function drawLengthyRectangle(map) {
+
+            var southWestLat = 6.77477738800632;
+            var southWestLng = 81.5030108865776;
+            var northEastLat = 7.00079438800632;
+            var northEastLng = 81.8849571453276;
+
+            var numberOfParts = 1;
+
+            var tileWidth = (northEastLng - southWestLng) / numberOfParts;
+            var tileHeight = (northEastLat - southWestLat) / numberOfParts;
+
+            for (var x = 0; x < 1; x++) {
+                for (var y = 0; y < 3; y++ ) {
+                    var areaBounds = {
+                        north: southWestLat + (tileHeight * (y+1)),
+                        south: southWestLat + (tileHeight * y),
+                        east: southWestLng + (tileWidth * (x+1)),
+                        west: southWestLng + (tileWidth * x)
+                    };
+
+                    var area = new google.maps.Rectangle({
+                        strokeColor: '#000000',
+                        //strokeOpacity: 0.8,
+                        strokeWeight: 1,
+                        //fillColor: '#FF0000',
+                        //fillOpacity: 0.35,
+                        map: map,
+                        bounds: areaBounds
+                    });
+
+                    var centerMark = new google.maps.Marker({
+                        position: area.getBounds().getCenter(),
+                        map: map,
+                        area: areaBounds,
+                    });
+
+                    google.maps.event.addListener(centerMark, 'click', function(evt) {
+
+                        initMap(this.position.lat(), this.position.lng());
+                    });
+                }
             }
-
-            else if(x == 3) {
-                numberOfBoxes = 16;
-            }
-
-            else if(x == 4) {
-                numberOfBoxes = 12;
-            }
-
-            else if(x == 5) {
-                numberOfBoxes = 8;
-            }
-
-            else if(x == 6) {
-                numberOfBoxes = 1;
-            }
-
-      for (var y = 0; y < numberOfBoxes; y++ ) {
-
-        if (x == 5 && (y == 2 || y == 3 || y == 4)) {
-          drawLengthyRectangle(map);
-      }
-
-      else {
-
-        var latCurrent = parseFloat(southEastLat[x]);
-        if(x >0 && x != 6) {
-         z = x-x;
-     }
-
-     else {
-      z = x;
-  }
-
-  if(x == 6) {
-     t = x - x;
- }
-
- else {
-  t = x;
- }
-
-var lngCurrent = parseFloat(southEastLng[z]);
-
-var areaBounds = {
-  north: latCurrent + (tileHeight * (y+1)),
-  south: latCurrent + (tileHeight * y),
-  east: lngCurrent + (tileWidth * (t+1)),
-  west: lngCurrent + (tileWidth * t)
-};
-
-var area = new google.maps.Rectangle({
-    strokeColor: '#000000',
-            // strokeOpacity: 0.8,
-            strokeWeight: 0.5,
-            //fillColor: '#FF0000',
-            //fillOpacity: 0.35,
-            map: map,
-            bounds: areaBounds
-        });
-
-var centerMark = new google.maps.Marker({
-  position: area.getBounds().getCenter(),
-  map: map,
-  area: areaBounds,
-  label: mapNumbers[count],
-  title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
-});
-
-google.maps.event.addListener(centerMark, 'click', function(evt) {
-    initMap(this.position.lat(), this.position.lng(), this.area);
-        });
-count++;
-}
-}
-}
-}
-
-function drawLengthyRectangle(map) {
-
-  var southWestLat = 6.77477738800632;
-  var southWestLng = 81.5030108865776;
-  var northEastLat = 7.00079438800632;
-  var northEastLng = 81.8849571453276;
-
-  var numberOfParts = 1;
-
-  var tileWidth = (northEastLng - southWestLng) / numberOfParts;
-  var tileHeight = (northEastLat - southWestLat) / numberOfParts;
-
-  for (var x = 0; x < 1; x++) {
-     for (var y = 0; y < 3; y++ ) {
-      var areaBounds = {
-          north: southWestLat + (tileHeight * (y+1)),
-          south: southWestLat + (tileHeight * y),
-          east: southWestLng + (tileWidth * (x+1)),
-          west: southWestLng + (tileWidth * x)
-      };
-
-      var area = new google.maps.Rectangle({
-        strokeColor: '#000000',
-            //strokeOpacity: 0.8,
-            strokeWeight: 1,
-            //fillColor: '#FF0000',
-            //fillOpacity: 0.35,
-            map: map,
-            bounds: areaBounds
-        });
-
-      var centerMark = new google.maps.Marker({
-            position: area.getBounds().getCenter(),
-            map: map,
-            area: areaBounds,
-            // label: mapNumbers[count],
-          title: area.getBounds().getCenter().toUrlValue(6)
-      });
-
-      google.maps.event.addListener(centerMark, 'click', function(evt) {
-
-        initMap(this.position.lat(), this.position.lng());
-        });
-  }
-}
-}    
-}
-var rectangle;
-var map;
-var infoWindow;
-      function initMap(centerLat, centerLng, inbounds) {
+        }    
+    }
+    var rectangle;
+    var map;
+    var infoWindow;
+    function initMap(centerLat, centerLng, inbounds) {
         map = new google.maps.Map(document.getElementById('map-canvas'), {
-          center: {lat: centerLat, lng: centerLng},
-          zoom: 10,
-          streetViewControl : false,
+            center: {lat: centerLat, lng: centerLng},
+            zoom: 10,
+            streetViewControl : false,
 
-      });
+        });
 
         rectangle = new google.maps.Rectangle({
             bounds: inbounds,
-          // editable: true,
-            strokeWeight: 1,
-            draggable: true
-      });
+              // editable: true,
+              strokeWeight: 1,
+              draggable: true
+          });
         rectangle.setMap(map);
         rectangle.addListener('dragend', showSelectedAreaWithGrid);
         infoWindow = new google.maps.InfoWindow();
     }
 
 
-        function showSelectedAreaWithGrid(event) {
+function showSelectedAreaWithGrid(event) {
 
-        var nEast = rectangle.getBounds().getNorthEast();
-        var sWest = rectangle.getBounds().getSouthWest();
+    var nEast = rectangle.getBounds().getNorthEast();
+    var sWest = rectangle.getBounds().getSouthWest();
 
-        var bounds = new google.maps.LatLngBounds(sWest,nEast);
-        
-        map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
-                        scrollwheel: false,
-                        draggable: false,
-                        disableDoubleClickZoom: true,
-                        disableDefaultUI: false
-        });
-            
-        map2.fitBounds(bounds);
-        map2.setZoom(14);
+    var bounds = new google.maps.LatLngBounds(sWest,nEast);
+
+    map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
+        scrollwheel: false,
+        draggable: false,
+        disableDoubleClickZoom: true,
+        disableDefaultUI: false
+    });
+
+    map2.fitBounds(bounds);
+    map2.setZoom(14);
 
         //northwest corner
         var latnWest = 9.93901538800632;
@@ -303,8 +288,8 @@ var infoWindow;
         var latnEast = 9.93901538800632;
         var lngnEast = 81.5030108865776;
 
-        var numberOfVerticalLines = 40;
-        var numberOfHorizontalLines = 25;
+        // var numberOfVerticalLines = 40;
+        // var numberOfHorizontalLines = 25;
         var topLat = 6.32274338800632;
         var bottomLat = 6.09672638800632;
         var rightLong = 80.0445048865776;
@@ -316,69 +301,69 @@ var infoWindow;
 
         for (var i = 0; i <= 400; i++) {
 
-        var linecordinates = [
+            var linecordinates = [
             {lat : (latnWest), lng: (lngnWest + (verticalGap * i))},
             {lat : (latsWest), lng: (lngsWest + (verticalGap * i))}
-        ];
+            ];
 
-        var linecordinates2 = [
+            var linecordinates2 = [
             {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
             {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
-        ];
+            ];
 
-        var str = 1;
+            var str = 1;
 
-        if(i%10 == 0) {
-          str = 2;
-        }
+            if(i%10 == 0) {
+              str = 2;
+          }
 
-        var gridline = new google.maps.Polyline({
+          var gridline = new google.maps.Polyline({
               path: linecordinates,
               geodesic: true,
               strokeColor: '#000000',
               strokeOpacity: 1.0,
               strokeWeight: str
-        });
+          });
 
-        gridline.setMap(map2);
+          gridline.setMap(map2);
 
-        var gridline2 = new google.maps.Polyline({
+          var gridline2 = new google.maps.Polyline({
               path: linecordinates2,
               geodesic: true,
               strokeColor: '#000000',
               strokeOpacity: 1.0,
               strokeWeight: str
-        });
-            
-        gridline2.setMap(map2);
+          });
+
+          gridline2.setMap(map2);
       }
-    }
+  }
 
-     function dl() {
-          var canvas = document.getElementById("draw-canvas");
-             canvas.width = 5000;
-             canvas.height = 5000;
-          var ctx = canvas.getContext("2d");
+  function dl() {
+      var canvas = document.getElementById("draw-canvas");
+      canvas.width = 5000;
+      canvas.height = 5000;
+      var ctx = canvas.getContext("2d");
 
-          var data = "<svg xmlns='http://www.w3.org/2000/svg' width='5000px' height='5000px'>" +
-              "<foreignObject width='100%' height='100%'>" +
-              "<div xmlns='http://www.w3.org/1999/xhtml'>" +
-              
-              document.getElementById('map-canvas2-wrapper').innerHTML +
-              
-              "</div>" +
-              "</foreignObject>" +
-              "</svg>";
+      var data = "<svg xmlns='http://www.w3.org/2000/svg' width='5000px' height='5000px'>" +
+      "<foreignObject width='100%' height='100%'>" +
+      "<div xmlns='http://www.w3.org/1999/xhtml'>" +
 
-          document.getElementById('diagram_image').innerHTML =data;
-        }
+      document.getElementById('map-canvas2-wrapper').innerHTML +
 
-        $(function() { 
-            $("#btnSave").click(function() { 
-                html2canvas($("#map-canvas2-wrapper"), {
-                    onrendered: function(canvas) {
-                        theCanvas = canvas;
-                        document.body.appendChild(canvas);
+      "</div>" +
+      "</foreignObject>" +
+      "</svg>";
+
+      document.getElementById('diagram_image').innerHTML =data;
+  }
+
+  $(function() { 
+    $("#btnSave").click(function() { 
+        html2canvas($("#map-canvas2-wrapper"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
 
                         // Convert and download as image 
                         Canvas2Image.saveAsPNG(canvas); 
@@ -387,11 +372,11 @@ var infoWindow;
                         //document.body.removeChild(canvas);
                     }
                 });
-            });
-        }); 
+    });
+}); 
 
-        google.maps.event.addDomListener(window, "load", initialize); 
-    </script>
+  google.maps.event.addDomListener(window, "load", initialize); 
+</script>
 
 
-    </html>
+</html>
