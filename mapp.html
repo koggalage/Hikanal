@@ -47,20 +47,20 @@
 
 <script>
 
-    function initialize() {     
+    function initialize() {
         var myLatlng;    
         var mapOptions;
         myLatlng = new google.maps.LatLng(7.884472, 80.850632);
         mapOptions = {
-          zoom: 8,
-          center: myLatlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(
-          document.getElementById("map-canvas"), mapOptions);
-      google.maps.event.addListenerOnce(map, 'idle', function() {
-          drawRectangle(map);
-      });
+            zoom: 8,
+            streetViewControl: false,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+            drawRectangle(map);
+        });
 
       function drawRectangle(map) {
 
@@ -154,8 +154,9 @@
  else {
   t = x;
 }
-/*console.log("x", x);
-console.log("z", z);*/
+
+// console.log("x", x);
+// console.log("z", z);
 var lngCurrent = parseFloat(southEastLng[z]);
 
 var areaBounds = {
@@ -166,9 +167,9 @@ var areaBounds = {
 };
 
 var area = new google.maps.Rectangle({
-    strokeColor: '#FF0000',
-            //strokeOpacity: 0.8,
-            strokeWeight: 2,
+    strokeColor: '#000000',
+            // strokeOpacity: 0.8,
+            strokeWeight: 0.5,
             //fillColor: '#FF0000',
             //fillOpacity: 0.35,
             map: map,
@@ -179,12 +180,14 @@ var centerMark = new google.maps.Marker({
   position: area.getBounds().getCenter(),
   map: map,
   area: areaBounds,
+  label: mapNumbers[count],
   title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
 });
 
 google.maps.event.addListener(centerMark, 'click', function(evt) {
+    // console.log(this);
 
-    initMap(this.position.lat(), this.position.lng());
+    initMap(this.position.lat(), this.position.lng(), this.area);
             // map.fitBounds(this.area);
             // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
             //   map.setZoom(map.getZoom()+1);
@@ -219,9 +222,9 @@ function drawLengthyRectangle(map) {
       };
 
       var area = new google.maps.Rectangle({
-        strokeColor: '#FF0000',
+        strokeColor: '#000000',
             //strokeOpacity: 0.8,
-            strokeWeight: 2,
+            strokeWeight: 1,
             //fillColor: '#FF0000',
             //fillOpacity: 0.35,
             map: map,
@@ -229,9 +232,10 @@ function drawLengthyRectangle(map) {
         });
 
       var centerMark = new google.maps.Marker({
-          position: area.getBounds().getCenter(),
-          map: map,
-          area: areaBounds,
+            position: area.getBounds().getCenter(),
+            map: map,
+            area: areaBounds,
+            // label: mapNumbers[count],
           title: area.getBounds().getCenter().toUrlValue(6)
       });
 
@@ -253,10 +257,12 @@ var map;
 var infoWindow;
       // var centerLat = 7.734472;
       // var centerLng = 80.850632;
-      function initMap(centerLat, centerLng) {
+      function initMap(centerLat, centerLng, inbounds) {
         map = new google.maps.Map(document.getElementById('map-canvas'), {
           center: {lat: centerLat, lng: centerLng},
-          zoom: 10
+          zoom: 10,
+          streetViewControl : false,
+
       });
         var bounds = {
           north: centerLat - 0.1,
@@ -264,11 +270,12 @@ var infoWindow;
           east: centerLng  - 0.1,
           west: centerLng  - 0.2
       };
-        // Define the rectangle and set its editable property to true.
+
         rectangle = new google.maps.Rectangle({
-          bounds: bounds,
-          editable: true,
-          draggable: true
+            bounds: inbounds,
+          // editable: true,
+            strokeWeight: 1,
+            draggable: true
       });
         rectangle.setMap(map);
         // Add an event listener on the rectangle.
@@ -304,12 +311,13 @@ var infoWindow;
                         // center: {lat: centerLat, lng: centerLng},
                         // zoom: 14
                         scrollwheel: false,
+                        zoomControl: false,
                         draggable: false,
                         disableDoubleClickZoom: true,
-                        // streetViewControl: false,
+                        streetViewControl: false,
                         // mapTypeControl: false,
-                        // scaleControl: false,
-                        // navigationControl: false,
+                        scaleControl: false,
+                        navigationControl: false,
                         // mapTypeId: google.maps.MapTypeId.ROADMAP,
                         disableDefaultUI: false
                     });
