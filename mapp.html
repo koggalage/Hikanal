@@ -153,10 +153,8 @@
 
  else {
   t = x;
-}
+ }
 
-// console.log("x", x);
-// console.log("z", z);
 var lngCurrent = parseFloat(southEastLng[z]);
 
 var areaBounds = {
@@ -185,14 +183,7 @@ var centerMark = new google.maps.Marker({
 });
 
 google.maps.event.addListener(centerMark, 'click', function(evt) {
-    // console.log(this);
-
     initMap(this.position.lat(), this.position.lng(), this.area);
-            // map.fitBounds(this.area);
-            // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-            //   map.setZoom(map.getZoom()+1);
-            // })
-
         });
 count++;
 }
@@ -242,11 +233,6 @@ function drawLengthyRectangle(map) {
       google.maps.event.addListener(centerMark, 'click', function(evt) {
 
         initMap(this.position.lat(), this.position.lng());
-            // map.fitBounds(this.area);
-            // google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-            //   map.setZoom(map.getZoom()+1);
-            // })
-
         });
   }
 }
@@ -255,8 +241,6 @@ function drawLengthyRectangle(map) {
 var rectangle;
 var map;
 var infoWindow;
-      // var centerLat = 7.734472;
-      // var centerLng = 80.850632;
       function initMap(centerLat, centerLng, inbounds) {
         map = new google.maps.Map(document.getElementById('map-canvas'), {
           center: {lat: centerLat, lng: centerLng},
@@ -278,119 +262,11 @@ var infoWindow;
             draggable: true
       });
         rectangle.setMap(map);
-        // Add an event listener on the rectangle.
-        rectangle.addListener('bounds_changed', showNewRect);
-        rectangle.addListener('bounds_changed', showSelectedAreaWithGrid);
-        // rectangle.addListener('bounds_changed', function(e) {
-        //     showSelectedArea(e.latLng, map);
-        // });
-        // Define an info window on the map.
+        rectangle.addListener('dragend', showSelectedAreaWithGrid);
         infoWindow = new google.maps.InfoWindow();
     }
-      // Show the new coordinates for the rectangle in an info window.
-      /** @this {google.maps.Rectangle} */
-      function showNewRect(event) {
-        var ne = rectangle.getBounds().getNorthEast();
-        var sw = rectangle.getBounds().getSouthWest();
-        var contentString = '<b>Rectangle moved.</b><br>' +
-        'New north-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>' +
-        'New south-west corner: ' + sw.lat() + ', ' + sw.lng();
-        // Set the info window's content and position.
-        infoWindow.setContent(contentString);
-        infoWindow.setPosition(ne);
-        infoWindow.open(map);
-    }   
-    function showSelectedArea(event) {
-        var nEast = rectangle.getBounds().getNorthEast();
-        var sWest = rectangle.getBounds().getSouthWest();
-        // var nWest = rectangle.getBounds().getNorthWest();
 
-        var bounds = new google.maps.LatLngBounds(sWest,nEast);
-            // bounds.extend(loc)
-            map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
-                        // center: {lat: centerLat, lng: centerLng},
-                        // zoom: 14
-                        scrollwheel: false,
-                        zoomControl: false,
-                        draggable: false,
-                        disableDoubleClickZoom: true,
-                        streetViewControl: false,
-                        // mapTypeControl: false,
-                        scaleControl: false,
-                        navigationControl: false,
-                        // mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        disableDefaultUI: false
-                    });
-            map2.fitBounds(bounds);
-            // var xxx = map2.getDiv();
-            // console.log(x);
-            // document.getElementById('map-canvas2').innerHTML = xxx;
-            // google.maps.event.trigger(map2, 'resize');ssss
-            map2.setZoom(map2.getZoom()+1);
-
-
-        // var flightPlanCoordinates = [
-        //   {lat: 8.906743903789346, lng: 81.45415710923385},
-        //   {lat: 8.706743903789346, lng: 81.35415710923385}
-        // ];
-
-            //northwest corner
-            var latnWest = nEast.lat(); 
-            var lngnWest = sWest.lng();
-
-            //southwest corner
-            var latsWest = sWest.lat();
-            var lngsWest = sWest.lng();
-
-            //northeast corner
-            var latnEast = nEast.lat(); 
-            var lngnEast = nEast.lng();
-
-        for (var i = 0; i <= 50; i++) {
-
-            var linecordinates = [
-              {lat : (latnWest /*+ (0.1 * i)*/), lng: (lngnWest + (0.05 * i))},
-              {lat : (latsWest /*+ (0.1 * i)*/), lng: (lngsWest + (0.05 * i))}
-            ];
-
-            var linecordinates2 = [
-              {lat : (latnWest - (0.05 * i)), lng: lngnWest},
-              {lat : (latnEast - (0.05 * i)), lng: lngnEast}
-            ];
-
-            // console.log(nWest);
-
-              var str = 1;
-            if(i%10 == 0) {
-              str = 2;
-            }
-
-            var gridline = new google.maps.Polyline({
-              path: linecordinates,
-              geodesic: true,
-              strokeColor: '#FFFFFF',
-              strokeOpacity: 1.0,
-              strokeWeight: str
-            });
-
-
-            
-            gridline.setMap(map2);
-
-            var gridline2 = new google.maps.Polyline({
-              path: linecordinates2,
-              geodesic: true,
-              strokeColor: '#FFFFFF',
-              strokeOpacity: 1.0,
-              strokeWeight: str
-            });
-            
-            gridline2.setMap(map2);
-        }
-        }
-
-
-        function showSelectedAreaWithGrid(event) {
+     function showSelectedAreaWithGrid(event) {
         var nEast = rectangle.getBounds().getNorthEast();
         var sWest = rectangle.getBounds().getSouthWest();
 
@@ -404,45 +280,43 @@ var infoWindow;
         });
             
         map2.fitBounds(bounds);
-        map2.setZoom(map2.getZoom()+1);
+        map2.setZoom(map2.getZoom()+4);
 
         //northwest corner
-        var latnWest = "9.93901538800632"; /*nEast.lat();*/ 
-        var lngnWest = "79.6798783865776"; /*sWest.lng();*/
-
+        var latnWest = 9.93901538800632;
+        var lngnWest = 79.6798783865776;
         //southwest corner
-        var latsWest = "5.87070938800632"; /*sWest.lat();*/
-        var lngsWest = "79.6798783865776"; /*sWest.lng();*/
-
+        var latsWest = 5.87070938800632;
+        var lngsWest = 79.6798783865776;
         //northeast corner
-        var latnEast = "9.93901538800632"; /*nEast.lat();*/  
-        var lngnEast = "81.5030108865776"; /*nEast.lng();*/
+        var latnEast = 9.93901538800632;
+        var lngnEast = 81.5030108865776;
 
         var numberOfVerticalLines = 40;
         var numberOfHorizontalLines = 25;
-        var topLat = "6.32274338800632";
-        var bottomLat = "6.09672638800632";
-        var rightLong = "80.0445048865776";
-        var leftLong = "79.6798783865776";
+        var topLat = 6.32274338800632;
+        var bottomLat = 6.09672638800632;
+        var rightLong = 80.0445048865776;
+        var leftLong = 79.6798783865776;
 
 
         var verticalGap = (topLat - bottomLat) / numberOfHorizontalLines;
         var horizontalGap = (rightLong - leftLong) / numberOfVerticalLines;
 
-        console.log("verticalGap", verticalGap);
-        console.log("horizontalGap", horizontalGap);
-
-        for (var i = 0; i <= 50; i++) {
+        for (var i = 0; i <= 400; i++) {
 
         var linecordinates = [
-            {lat : (latnWest /*+ (0.1 * i)*/), lng: (lngnWest + (verticalGap * i))},
-            {lat : (latsWest /*+ (0.1 * i)*/), lng: (lngsWest + (verticalGap * i))}
+            {lat : (latnWest), lng: (lngnWest + (verticalGap * i))},
+            {lat : (latsWest), lng: (lngsWest + (verticalGap * i))}
         ];
 
         var linecordinates2 = [
             {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
             {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
         ];
+
+        console.log("linecordinates", linecordinates);
+        console.log("linecordinates2", linecordinates2);
 
         var str = 1;
 
@@ -453,7 +327,7 @@ var infoWindow;
         var gridline = new google.maps.Polyline({
               path: linecordinates,
               geodesic: true,
-              strokeColor: '#FFFFFF',
+              strokeColor: '#000000',
               strokeOpacity: 1.0,
               strokeWeight: str
         });
@@ -463,7 +337,7 @@ var infoWindow;
         var gridline2 = new google.maps.Polyline({
               path: linecordinates2,
               geodesic: true,
-              strokeColor: '#FFFFFF',
+              strokeColor: '#000000',
               strokeOpacity: 1.0,
               strokeWeight: str
         });
