@@ -358,22 +358,22 @@ function showSelectedAreaWithGrid(event) {
       document.getElementById('diagram_image').innerHTML =data;
   }
 
-  $(function() { 
-    $("#btnSave").click(function() { 
-        html2canvas($("#map-canvas2-wrapper"), {
-            onrendered: function(canvas) {
-                theCanvas = canvas;
-                document.body.appendChild(canvas);
+    $(function() {
+        $("#btnSave").click(function() { 
+            html2canvas($("#map-canvas2-wrapper"), {
+                onrendered: function(canvas) {
+                    theCanvas = canvas;
+                    document.body.appendChild(canvas);
 
-                        // Convert and download as image 
-                        Canvas2Image.saveAsPNG(canvas); 
-                        $("#img-out").append(canvas);
-                        // Clean up 
-                        //document.body.removeChild(canvas);
-                    }
-                });
-    });
-}); 
+                            // Convert and download as image 
+                            Canvas2Image.saveAsPNG(canvas); 
+                            $("#img-out").append(canvas);
+                            // Clean up 
+                            //document.body.removeChild(canvas);
+                        }
+                    });
+        });
+    }); 
 
   google.maps.event.addDomListener(window, "load", initialize); 
 </script>
