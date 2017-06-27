@@ -11,6 +11,7 @@
   <div class="container">
         <div class="row">
             <button id="btnSave" style="display: none;"> Save</button>
+            <a id="download">Download as image</a>
             <!-- 
             <button id="btnSave" style="display: none;"> Save</button> 
             -->
@@ -30,7 +31,7 @@
         <div id="diagram_image">
         </div>
         <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
 
           <div id="map-canvas3"></div>
       </div>
@@ -84,8 +85,9 @@ overflow: auto;
         google.maps.event.addListenerOnce(map, 'idle', function() {
             drawRectangle(map);
         });
+    }
 
-        function drawRectangle(map) {
+        function drawRectangle(map, drawMarker = true) {
 
             var southWestLat = 7.45282838800632;
             var southWestLng = 80.7737578865776;
@@ -178,23 +180,27 @@ overflow: auto;
                         };
 
                         var area = new google.maps.Rectangle({
-                        strokeColor: '#000000',
+                            strokeColor: '#000000',
+                            fillColor: '#000000',
+                            fillOpacity: 0.05,
                             strokeWeight: 0.5,
                             map: map,
                             bounds: areaBounds
                         });
+                            
+                            var centerMark = new google.maps.Marker({
+                                position: area.getBounds().getCenter(),
+                                map: map,
+                                area: areaBounds,
+                                label: mapNumbers[count],
+                                title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
+                            });
 
-                        var centerMark = new google.maps.Marker({
-                            position: area.getBounds().getCenter(),
-                            map: map,
-                            area: areaBounds,
-                            label: mapNumbers[count],
-                            title: "Map Number:" + mapNumbers[count]  + "\nLatlong:" + area.getBounds().getCenter().toUrlValue(6)
-                        });
-
-                        google.maps.event.addListener(centerMark, 'click', function(evt) {
-                            initMap(this.position.lat(), this.position.lng(), this.area);
-                        });
+                        if (drawMarker == true) {
+                            google.maps.event.addListener(centerMark, 'click', function(evt) {
+                                initMap(this.position.lat(), this.position.lng(), this.area);
+                            });
+                        }
                         count++;
                     }
                 }
@@ -245,7 +251,7 @@ overflow: auto;
                 }
             }
         }    
-    }
+    // }
     var rectangle;
     var map;
     var infoWindow;
@@ -255,6 +261,9 @@ overflow: auto;
             zoom: 10,
             streetViewControl : false,
 
+        });
+        google.maps.event.addListenerOnce(map, 'idle', function() {
+            // drawRectangle(map, false);
         });
 
         rectangle = new google.maps.Rectangle({
@@ -360,6 +369,13 @@ overflow: auto;
         });
 
     }
+
+        $("#download").click(function() {
+            var ttt = $("#map-canvas3").find( "canvas" ).html;
+            console.log(ttt);
+            // this.href = $("#map-canvas3").find( "canvas" ).toDataURL();
+            // this.download = "image.png";
+        });
 
         $("#btnSave").click(function() {
             $("#map-canvas2-wrapper").attr("style","overflow : visible;");
