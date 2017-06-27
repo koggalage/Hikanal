@@ -273,22 +273,22 @@ overflow: auto;
     }
 
 
-    function showSelectedAreaWithGrid(event) {
+function showSelectedAreaWithGrid(event) {
 
-        var nEast = rectangle.getBounds().getNorthEast();
-        var sWest = rectangle.getBounds().getSouthWest();
+    var nEast = rectangle.getBounds().getNorthEast();
+    var sWest = rectangle.getBounds().getSouthWest();
 
-        var bounds = new google.maps.LatLngBounds(sWest,nEast);
+    var bounds = new google.maps.LatLngBounds(sWest,nEast);
 
-        map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
-            scrollwheel: false,
-            draggable: false,
-            disableDoubleClickZoom: true,
-            disableDefaultUI: false
-        });
+    map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
+        scrollwheel: false,
+        draggable: false,
+        disableDoubleClickZoom: true,
+        disableDefaultUI: false
+    });
 
-        map2.fitBounds(bounds);
-        map2.setZoom(14);
+    map2.fitBounds(bounds);
+    map2.setZoom(14);
 
         //northwest corner
         var latnWest = 9.93901538800632;
@@ -327,25 +327,25 @@ overflow: auto;
 
             if(i%10 == 0) {
               str = 2;
-            }
+          }
 
-            var gridline = new google.maps.Polyline({
-                path: linecordinates,
-                geodesic: true,
-                strokeColor: '#000000',
-                strokeOpacity: 1.0,
-                strokeWeight: str
-            });
+          var gridline = new google.maps.Polyline({
+              path: linecordinates,
+              geodesic: true,
+              strokeColor: '#000000',
+              strokeOpacity: 1.0,
+              strokeWeight: str
+          });
 
-            gridline.setMap(map2);
+          gridline.setMap(map2);
 
-            var gridline2 = new google.maps.Polyline({
-                path: linecordinates2,
-                geodesic: true,
-                strokeColor: '#000000',
-                strokeOpacity: 1.0,
-                strokeWeight: str
-            });
+          var gridline2 = new google.maps.Polyline({
+              path: linecordinates2,
+              geodesic: true,
+              strokeColor: '#000000',
+              strokeOpacity: 1.0,
+              strokeWeight: str
+          });
 
             gridline2.setMap(map2);
         }
@@ -359,7 +359,7 @@ overflow: auto;
             });
         });
 
-    }
+  }
 
         $("#btnSave").click(function() {
             $("#map-canvas2-wrapper").attr("style","overflow : visible;");
