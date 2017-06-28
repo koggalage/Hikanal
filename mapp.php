@@ -12,12 +12,12 @@
 <div id="overlayLoading" style="display: none"></div>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header"><a href="#" class="navbar-brand">Welcome User</a></div>
+        <div class="navbar-header"><a href="#" class="navbar-brand">Kamal</a></div>
         <ul class="navbar-nav nav navbar-right">
-            <!-- <li><a href="#">Refresh</a></li> -->
-            <li><a href="#">Map</a></li>
-            <li><a href="#">Add Users</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">23</a></li>
+            <li><a href="#">345</a></li>
+            <li><a href="#">ere</a></li>
         </ul>
     </div>
 </nav>
@@ -37,6 +37,8 @@
                     <div id="map-canvas2"></div>
                 </div>
             </div>
+        </div>
+        <div id="diagram_image">
         </div>
         <div class="row">
         <div class="col-md-12">
@@ -77,16 +79,14 @@ body {
 #map-canvas2 {
         height: 2750px;
         width: 4400px;
-/*        margin: 0%;
-padding: 0%;*/
 }
+
 #map-canvas2-wrapper {
     height: 100vh;
     width: 100%;
-/*        margin: 10%;
-padding: 10%;*/
-overflow: scroll;
+    overflow: scroll;
 }
+
 #map-canvas {
     height: 100%;
     width: 100%;
@@ -288,19 +288,7 @@ var c = '';
     // }
     var rectangle;
     var map;
-
-    var strictBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(5.87, 79.67),
-        new google.maps.LatLng(9.93, 81.50)
-    );
-        //     var latnWest = 9.93901538800632;
-        // var lngnWest = 79.6798783865776;
-        // //southwest corner
-        // var latsWest = 5.87070938800632;
-        // var lngsWest = 79.6798783865776;
-        // //northeast corner
-        // var latnEast = 9.93901538800632;
-        // var lngnEast = 81.5030108865776;
+    var infoWindow;
     function initMap(centerLat, centerLng, inbounds) {
         map = new google.maps.Map(document.getElementById('map-canvas'), {
             center: {lat: centerLat, lng: centerLng},
@@ -319,23 +307,12 @@ var c = '';
               draggable: true
           });
         rectangle.setMap(map);
-        // rectangle.addListener('dragend', showSelectedAreaWithGrid);
-        rectangle.addListener('dragend', function() {
-            if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
-                console.log("ff");
-                showSelectedAreaWithGrid();
-            }   else {
-
-                    rectangle.setBounds(inbounds);
-                    map.setCenter(new google.maps.LatLng(centerLat, centerLng));
-            }
-
-        });
+        rectangle.addListener('dragend', showSelectedAreaWithGrid);
         rectangle.addListener('dragstart', function() {
-            // $("#btnSave").hide();
+            $("#btnSave").hide();
 
         });
-        // infoWindow = new google.maps.InfoWindow();
+        infoWindow = new google.maps.InfoWindow();
     }
 
 
@@ -457,10 +434,9 @@ var c = '';
                
     }
 
-
         $("#download").click(function() {
             //Canvas2Image.saveAsJPEG(c);
-            download(c.toDataURL("image/png"), "map.png", "image/png");
+            download(c.toDataURL("image/png"), "ff.png", "image/png");
             //location.reload();
             //var ttt = $("#map-canvas3").find( "canvas" ).html;
             //console.log(ttt);

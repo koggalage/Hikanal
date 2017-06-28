@@ -49,10 +49,10 @@ class User extends CI_Model{
     public function insert($data = array()) {
         //add created and modified data if not included
         if(!array_key_exists("created", $data)){
-            $data['created'] = date("Y-m-d H:i:s");
+            // $data['created'] = date("Y-m-d H:i:s");
         }
         if(!array_key_exists("modified", $data)){
-            $data['modified'] = date("Y-m-d H:i:s");
+            // $data['modified'] = date("Y-m-d H:i:s");
         }
         $data['account_created'] = date("Y-m-d H:i:s");
         $data['user_type'] = "U";

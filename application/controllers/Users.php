@@ -2,9 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 // if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * User Management class created by CodexWorld
- */
+
 class Users extends CI_Controller {
     
     function __construct() {
@@ -14,20 +12,18 @@ class Users extends CI_Controller {
     }
     
     public function index(){
+        $data = array();
         if($this->session->userdata('isUserLoggedIn')){
-            $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
-            //load the view
-            $this->load->view('users/account', $data);
+            redirect('map/index');
         }else{
-        echo "string";
+        // echo "string";
             redirect('users/login');
         }
     }
-    /*
-     * User account information
-     */
+
 
     public function account(){
+
         $data = array();
         if($this->session->userdata('isUserLoggedIn')){
             $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
@@ -38,12 +34,9 @@ class Users extends CI_Controller {
         }
     }
     
-    /*
-     * User login
-     */
+
 
     public function login(){
-        // echo "kjhdfsjhfds"; die();
         $data = array();
         if($this->session->userdata('success_msg')){
             $data['success_msg'] = $this->session->userdata('success_msg');
@@ -63,11 +56,12 @@ class Users extends CI_Controller {
                     'password' => md5($this->input->post('password'))
                 );
                 $checkLogin = $this->user->getRows($con);
+                // var_dump($checkLogin); die;
                 if($checkLogin){
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
-                    $this->session->set_userdata('userId',$checkLogin['id']);
-                    $this->session->set_userdata('userType',$checkLogin['user_type']);
-                    redirect('users/account/');
+                    $this->session->set_userdata('userId',$checkLogin->id);
+                    $this->session->set_userdata('userType',$checkLogin->user_type);
+                    redirect('map/index');
                 }else{
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
@@ -77,10 +71,11 @@ class Users extends CI_Controller {
         $this->load->view('users/login', $data);
     }
     
-    /*
-     * User registration
-     */
     public function registration(){
+        if($this->session->userdata('userType') != "A"){
+            redirect('map');
+
+        }
         $data = array();
         $userData = array();
         if($this->input->post('regisSubmit')){

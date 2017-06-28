@@ -1,29 +1,23 @@
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="html2canvas.js"></script>
-    <script src="download.min.js"></script>
-    <script src="canvas2image.js"></script>
-    <script src="base64.js"></script>
 
-</head>
-<body>
 <div id="overlayLoading" style="display: none"></div>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header"><a href="#" class="navbar-brand">Welcome User</a></div>
+        <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo "Welcome ".$user->name; ?></a></div>
         <ul class="navbar-nav nav navbar-right">
-            <!-- <li><a href="#">Refresh</a></li> -->
-            <li><a href="#">Map</a></li>
-            <li><a href="#">Add Users</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">23</a></li>
+            <li><a href="#">345</a></li>
+            <li><a href="">ere</a></li>
         </ul>
     </div>
 </nav>
         <div class="actions" >
+            <!-- <button id="btnSave" class="btn btn-primary" style="display: none;"> Save</button> -->
             <a class="btn btn-default" id="download" target="_blank" style="display: none;">Download as image</a>
 
+            <!-- 
+            <button id="btnSave" style="display: none;"> Save</button> 
+            -->
         </div>
   <div class="container-fluid">
         <div class="row">
@@ -38,6 +32,8 @@
                 </div>
             </div>
         </div>
+        <div id="diagram_image">
+        </div>
         <div class="row">
         <div class="col-md-12">
 
@@ -45,6 +41,7 @@
       </div>
   </div>
 </div>
+<!-- <canvas id="draw-canvas" style="border:2px solid black;" width="5000px" height="5000px"></canvas> -->
 </body>
 
 <style>
@@ -288,19 +285,7 @@ var c = '';
     // }
     var rectangle;
     var map;
-
-    var strictBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(5.87, 79.67),
-        new google.maps.LatLng(9.93, 81.50)
-    );
-        //     var latnWest = 9.93901538800632;
-        // var lngnWest = 79.6798783865776;
-        // //southwest corner
-        // var latsWest = 5.87070938800632;
-        // var lngsWest = 79.6798783865776;
-        // //northeast corner
-        // var latnEast = 9.93901538800632;
-        // var lngnEast = 81.5030108865776;
+    var infoWindow;
     function initMap(centerLat, centerLng, inbounds) {
         map = new google.maps.Map(document.getElementById('map-canvas'), {
             center: {lat: centerLat, lng: centerLng},
@@ -319,23 +304,12 @@ var c = '';
               draggable: true
           });
         rectangle.setMap(map);
-        // rectangle.addListener('dragend', showSelectedAreaWithGrid);
-        rectangle.addListener('dragend', function() {
-            if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
-                console.log("ff");
-                showSelectedAreaWithGrid();
-            }   else {
-
-                    rectangle.setBounds(inbounds);
-                    map.setCenter(new google.maps.LatLng(centerLat, centerLng));
-            }
-
-        });
+        rectangle.addListener('dragend', showSelectedAreaWithGrid);
         rectangle.addListener('dragstart', function() {
-            // $("#btnSave").hide();
+            $("#btnSave").hide();
 
         });
-        // infoWindow = new google.maps.InfoWindow();
+        infoWindow = new google.maps.InfoWindow();
     }
 
 
@@ -352,7 +326,9 @@ var c = '';
             scrollwheel: false,
             draggable: false,
             disableDoubleClickZoom: true,
-            disableDefaultUI: false
+            disableDefaultUI: false,
+            streetViewControl : false,
+
         });
 
         map2.fitBounds(bounds);
@@ -457,10 +433,9 @@ var c = '';
                
     }
 
-
         $("#download").click(function() {
             //Canvas2Image.saveAsJPEG(c);
-            download(c.toDataURL("image/png"), "map.png", "image/png");
+            download(c.toDataURL("image/png"), "ff.png", "image/png");
             //location.reload();
             //var ttt = $("#map-canvas3").find( "canvas" ).html;
             //console.log(ttt);
@@ -490,10 +465,7 @@ var c = '';
                     });
         });
         // $("#map-canvas2-wrapper").style('overflow', "auto");
-        google.maps.event.addDomListener(window, "load", initialize); 
+        google.maps.event.addDomListener(window, "load", initialize);
     }); 
 
 </script>
-
-
-</html>
