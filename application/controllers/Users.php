@@ -71,6 +71,7 @@ class Users extends CI_Controller {
             }
         }
         //load the view
+        $this->load->view('header', $data);
         $this->load->view('users/login', $data);
     }
     

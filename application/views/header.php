@@ -128,12 +128,14 @@ body {
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo "Welcome ".$current_user->name; ?></a></div>
-            <ul class="navbar-nav nav navbar-right">
-                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
-                <li><a href="<?php echo base_url('index.php/users/registration'); ?>">Add Users</a></li>
-                <li><a href="<?php echo base_url('index.php/users/logout'); ?>">Logout</a></li>
-                <!-- <li><a href="">ere</a></li> -->
-            </ul>
-        </div>
+        <?php if ($this->session->userdata('isUserLoggedIn')) :?>
+            <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo isset($current_user)?"Welcome ".$current_user->name:""; ?></a></div>
+	            <ul class="navbar-nav nav navbar-right">
+	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
+	                <li><a href="<?php echo base_url('index.php/users/registration'); ?>">Add Users</a></li>
+	                <li><a href="<?php echo base_url('index.php/users/logout'); ?>">Logout</a></li>
+	                <!-- <li><a href="">ere</a></li> -->
+	            </ul>
+        	</div>
+        <?php endif; ?>
     </nav>
