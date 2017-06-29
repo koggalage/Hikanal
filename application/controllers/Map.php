@@ -19,7 +19,7 @@ class Map extends CI_Controller {
     
     public function view(){
         $data = array();
-        $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
             //load the view
         $this->load->view('header', $data);
         $this->load->view('map/mapp', $data);

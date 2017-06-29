@@ -80,6 +80,8 @@ class Users extends CI_Controller {
 
         }
         $data = array();
+        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+
         $userData = array();
         if($this->input->post('regisSubmit')){
             $this->form_validation->set_rules('name', 'Name', 'required');
@@ -107,6 +109,7 @@ class Users extends CI_Controller {
         }
         $data['user'] = $userData;
         //load the view
+        $this->load->view('header', $data);
         $this->load->view('users/registration', $data);
     }
     

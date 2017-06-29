@@ -484,13 +484,13 @@ var c = '';
                         var markerVertical = new google.maps.Marker({  
                             position: new google.maps.LatLng(numberCordinationsForVerticalGrid[x][0].lat,numberCordinationsForVerticalGrid[j][0].lng),   
                             map: map2,
-                            icon: iconUrlVertical
+                            icon: "spotlight-poi.png"
                         });
 
                         var markerHorizontal = new google.maps.Marker({  
                             position: new google.maps.LatLng(numberCordinationsForHorizontalGrid[j][0].lat,numberCordinationsForHorizontalGrid[x][0].lng),   
                             map: map2,
-                            icon: iconUrlHorizontal
+                            icon: "spotlight-poi.png"
                         });
                     }
                 }
@@ -505,14 +505,13 @@ var c = '';
         google.maps.event.addListenerOnce(map2, 'idle', function(){
             google.maps.event.addListenerOnce(map2, 'tilesloaded', function(){
                 
-                // do something only the first time the map is loaded
-                // $("#btnSave").show();
                 $("#map-canvas2-wrapper").attr("style","overflow : visible;");
                 html2canvas($("#map-canvas2"), {
                         useCORS: true,
-
+                        // allowTaint: false,
                 onrendered: function(canvas) {
                     c = canvas;
+                    // console.log(canvas.toDataURL());
                     //theCanvas = canvas;
                     // document.body.appendChild(canvas);
 
