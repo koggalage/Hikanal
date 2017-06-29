@@ -82,7 +82,14 @@ class Users extends CI_Controller {
         }
         $data = array();
         $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
-
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }
+        if($this->session->userdata('error_msg')){
+            $data['error_msg'] = $this->session->userdata('error_msg');
+            $this->session->unset_userdata('error_msg');
+        }
         $userData = array();
         if($this->input->post('regisSubmit')){
             $this->form_validation->set_rules('name', 'Name', 'required');
@@ -102,7 +109,7 @@ class Users extends CI_Controller {
                 $insert = $this->user->insert($userData);
                 if($insert){
                     $this->session->set_userdata('success_msg', 'Your registration was successfully. Please login to your account.');
-                    redirect('users/login');
+                    // redirect('users/login');
                 }else{
                     $data['error_msg'] = 'Some problems occured, please try again.';
                 }
