@@ -393,7 +393,81 @@ var c = '';
             });
 
             gridline2.setMap(map2);
+
+            // ----->
+            numberCordinationsForVerticalGrid[i] = [
+                {lat : (latnWest - (horizontalGap * i)), lng: (lngnWestForGridNumbers + (verticalGap * i))}
+            ];
+
+            numberCordinationsForHorizontalGrid[i] = [
+                {lat : (latnWestForGridNumbers - (horizontalGap * i)), lng: (lngnWest + (verticalGap * i))}
+            ];
         }
+
+        var numberCountHorizontal = 45;
+        var numberCountVertical = 25;
+        var numberCountHorizontalPrint;
+        var numberCountVerticalPrint;
+
+        for (var j = 0; j <600; j++) {
+
+            if (j%5 == 0) {
+
+                for (var x = 0; x < 600; x++) {
+                    
+                if (x%5 == 0) {
+
+                    numberCountHorizontal = numberCountHorizontal + 5;
+
+                    if (numberCountHorizontal == 100) {
+                        numberCountHorizontal = 0;
+                    }
+
+                    if (numberCountHorizontal == 0 || numberCountHorizontal == 5) {
+                        numberCountHorizontalPrint = "0" + numberCountHorizontal;
+                    }
+
+                    else {
+                        numberCountHorizontalPrint = numberCountHorizontal;
+                    }
+
+                    numberCountVertical = numberCountVertical - 5;
+
+                    if (numberCountVertical == 0 || numberCountVertical == 5) {
+                        numberCountVerticalPrint = "0" + numberCountVertical;                        
+                    }
+
+                    else {
+                        numberCountVerticalPrint = numberCountVertical;
+                    }
+
+                    if (numberCountVertical == 0) {
+                        numberCountVertical = 100;                        
+                    }
+
+                    var iconUrlVertical = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountVerticalPrint + "|FE6256|000000";
+                    var iconUrlHorizontal = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountHorizontalPrint + "|FFFF00|000000";
+
+                    var markerVertical = new google.maps.Marker({  
+                        position: new google.maps.LatLng(numberCordinationsForVerticalGrid[x][0].lat,numberCordinationsForVerticalGrid[j][0].lng),   
+                        map: map2,
+                        icon: iconUrlVertical
+                    });
+
+                    var markerHorizontal = new google.maps.Marker({  
+                        position: new google.maps.LatLng(numberCordinationsForHorizontalGrid[j][0].lat,numberCordinationsForHorizontalGrid[x][0].lng),   
+                        map: map2,
+                        icon: iconUrlHorizontal
+                    });
+                    }
+                }
+
+            }
+          
+          
+        }
+
+
         google.maps.event.addListenerOnce(map2, 'idle', function(){
             google.maps.event.addListenerOnce(map2, 'tilesloaded', function(){
                 
