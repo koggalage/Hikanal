@@ -291,7 +291,7 @@ var c = '';
 
     var strictBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(5.87, 79.67),
-        new google.maps.LatLng(9.93, 81.50)
+        new google.maps.LatLng(9.93, 82.50)
     );
         //     var latnWest = 9.93901538800632;
         // var lngnWest = 79.6798783865776;
@@ -322,12 +322,12 @@ var c = '';
         // rectangle.addListener('dragend', showSelectedAreaWithGrid);
         rectangle.addListener('dragend', function() {
             if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
-                console.log("ff");
+                // console.log("ff");
                 showSelectedAreaWithGrid();
             }   else {
-
                     rectangle.setBounds(inbounds);
                     map.setCenter(new google.maps.LatLng(centerLat, centerLng));
+                    map.setZoom(10)
             }
 
         });
