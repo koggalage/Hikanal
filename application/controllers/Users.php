@@ -14,15 +14,16 @@ class Users extends CI_Controller {
     public function index(){
         $data = array();
         if($this->session->userdata('isUserLoggedIn')){
-            redirect('map/index');
+            redirect('map/view');
         }else{
-        // echo "string";
             redirect('users/login');
         }
     }
 
 
     public function account(){
+        
+        redirect('map/view');
 
         $data = array();
         if($this->session->userdata('isUserLoggedIn')){
@@ -35,8 +36,10 @@ class Users extends CI_Controller {
     }
     
 
-
     public function login(){
+        if($this->session->userdata('isUserLoggedIn')){
+            redirect('map/view');
+        }
         $data = array();
         if($this->session->userdata('success_msg')){
             $data['success_msg'] = $this->session->userdata('success_msg');
@@ -61,7 +64,7 @@ class Users extends CI_Controller {
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
                     $this->session->set_userdata('userId',$checkLogin->id);
                     $this->session->set_userdata('userType',$checkLogin->user_type);
-                    redirect('map/index');
+                    redirect('map/view');
                 }else{
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
@@ -73,7 +76,7 @@ class Users extends CI_Controller {
     
     public function registration(){
         if($this->session->userdata('userType') != "A"){
-            redirect('map');
+            redirect('map/view');
 
         }
         $data = array();

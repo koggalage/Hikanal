@@ -9,20 +9,19 @@ class Map extends CI_Controller {
     
     function __construct() {
         parent::__construct();
+        if(!$this->session->userdata('isUserLoggedIn')){
+            redirect('users/login');
+        }
+
         $this->load->library('form_validation');
         $this->load->model('user');
     }
     
-    public function index(){
-        // echo "string"; die();
+    public function view(){
         $data = array();
-        if($this->session->userdata('isUserLoggedIn')){
-            $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+        $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
             //load the view
-            $this->load->view('header', $data);
-            $this->load->view('map/mapp', $data);
-        }else{
-            redirect('users/login');
-        }
+        $this->load->view('header', $data);
+        $this->load->view('map/mapp', $data);
     }
 }

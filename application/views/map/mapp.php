@@ -1,49 +1,3 @@
-
-<div id="overlayLoading" style="display: none"></div>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo "Welcome ".$user->name; ?></a></div>
-        <ul class="navbar-nav nav navbar-right">
-            <li><a href="#">1</a></li>
-            <li><a href="#">23</a></li>
-            <li><a href="#">345</a></li>
-            <li><a href="">ere</a></li>
-        </ul>
-    </div>
-</nav>
-        <div class="actions" >
-            <!-- <button id="btnSave" class="btn btn-primary" style="display: none;"> Save</button> -->
-            <a class="btn btn-default" id="download" target="_blank" style="display: none;">Download as image</a>
-
-            <!-- 
-            <button id="btnSave" style="display: none;"> Save</button> 
-            -->
-        </div>
-  <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
-                <div id="map-canvas"></div>
-
-            </div>
-            <div class="col-md-8">
-                <div id="map-canvas2-wrapper">
-
-                    <div id="map-canvas2"></div>
-                </div>
-            </div>
-        </div>
-        <div id="diagram_image">
-        </div>
-        <div class="row">
-        <div class="col-md-12">
-
-          <div id="map-canvas3"></div>
-      </div>
-  </div>
-</div>
-<!-- <canvas id="draw-canvas" style="border:2px solid black;" width="5000px" height="5000px"></canvas> -->
-</body>
-
 <style>
 
 body {
@@ -52,7 +6,7 @@ body {
 }
 
 #overlayLoading {
-    opacity: 0.5;
+    opacity: 0.7;
     position: absolute;
     right: 0;
     bottom: 0;
@@ -71,29 +25,234 @@ body {
     padding: 10px;
 }
 
-#map-canvas2 {
-        height: 2750px;
-        width: 4400px;
-/*        margin: 0%;
-padding: 0%;*/
-}
-#map-canvas2-wrapper {
+#map-canvas {
     height: 100vh;
     width: 100%;
-/*        margin: 10%;
-padding: 10%;*/
-overflow: scroll;
-}
-#map-canvas {
-    height: 100%;
-    width: 100%;
     margin: 0px;
-    padding: 0px
+    padding: 0px;
 }
+
 #map-canvas2 {
+    height: 2750px;
+    width: 4400px;
     position: relative;
 }
+
+#map-canvas2-wrapper {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+#ballsWaveG{
+    position:relative;
+    width:224px;
+    height:53px;
+    margin:auto;
+    top: 50%;
+}
+
+.ballsWaveG{
+    position:absolute;
+    top:0;
+    background-color:rgb(0,0,0);
+    width:28px;
+    height:28px;
+    animation-name:ballsWaveG;
+        -o-animation-name:ballsWaveG;
+        -ms-animation-name:ballsWaveG;
+        -webkit-animation-name:ballsWaveG;
+        -moz-animation-name:ballsWaveG;
+    animation-duration:1.5s;
+        -o-animation-duration:1.5s;
+        -ms-animation-duration:1.5s;
+        -webkit-animation-duration:1.5s;
+        -moz-animation-duration:1.5s;
+    animation-iteration-count:infinite;
+        -o-animation-iteration-count:infinite;
+        -ms-animation-iteration-count:infinite;
+        -webkit-animation-iteration-count:infinite;
+        -moz-animation-iteration-count:infinite;
+    animation-direction:normal;
+        -o-animation-direction:normal;
+        -ms-animation-direction:normal;
+        -webkit-animation-direction:normal;
+        -moz-animation-direction:normal;
+    border-radius:14px;
+        -o-border-radius:14px;
+        -ms-border-radius:14px;
+        -webkit-border-radius:14px;
+        -moz-border-radius:14px;
+}
+
+#ballsWaveG_1{
+    left:0;
+    animation-delay:0.6s;
+        -o-animation-delay:0.6s;
+        -ms-animation-delay:0.6s;
+        -webkit-animation-delay:0.6s;
+        -moz-animation-delay:0.6s;
+}
+
+#ballsWaveG_2{
+    left:28px;
+    animation-delay:0.75s;
+        -o-animation-delay:0.75s;
+        -ms-animation-delay:0.75s;
+        -webkit-animation-delay:0.75s;
+        -moz-animation-delay:0.75s;
+}
+
+#ballsWaveG_3{
+    left:56px;
+    animation-delay:0.9s;
+        -o-animation-delay:0.9s;
+        -ms-animation-delay:0.9s;
+        -webkit-animation-delay:0.9s;
+        -moz-animation-delay:0.9s;
+}
+
+#ballsWaveG_4{
+    left:84px;
+    animation-delay:1.05s;
+        -o-animation-delay:1.05s;
+        -ms-animation-delay:1.05s;
+        -webkit-animation-delay:1.05s;
+        -moz-animation-delay:1.05s;
+}
+
+#ballsWaveG_5{
+    left:112px;
+    animation-delay:1.2s;
+        -o-animation-delay:1.2s;
+        -ms-animation-delay:1.2s;
+        -webkit-animation-delay:1.2s;
+        -moz-animation-delay:1.2s;
+}
+
+#ballsWaveG_6{
+    left:140px;
+    animation-delay:1.35s;
+        -o-animation-delay:1.35s;
+        -ms-animation-delay:1.35s;
+        -webkit-animation-delay:1.35s;
+        -moz-animation-delay:1.35s;
+}
+
+#ballsWaveG_7{
+    left:168px;
+    animation-delay:1.5s;
+        -o-animation-delay:1.5s;
+        -ms-animation-delay:1.5s;
+        -webkit-animation-delay:1.5s;
+        -moz-animation-delay:1.5s;
+}
+
+#ballsWaveG_8{
+    left:196px;
+    animation-delay:1.64s;
+        -o-animation-delay:1.64s;
+        -ms-animation-delay:1.64s;
+        -webkit-animation-delay:1.64s;
+        -moz-animation-delay:1.64s;
+}
+
+
+
+@keyframes ballsWaveG{
+    0%{
+        background-color:rgb(0,0,0);
+    }
+
+    100%{
+        background-color:rgb(255,255,255);
+    }
+}
+
+@-o-keyframes ballsWaveG{
+    0%{
+        background-color:rgb(0,0,0);
+    }
+
+    100%{
+        background-color:rgb(255,255,255);
+    }
+}
+
+@-ms-keyframes ballsWaveG{
+    0%{
+        background-color:rgb(0,0,0);
+    }
+
+    100%{
+        background-color:rgb(255,255,255);
+    }
+}
+
+@-webkit-keyframes ballsWaveG{
+    0%{
+        background-color:rgb(0,0,0);
+    }
+
+    100%{
+        background-color:rgb(255,255,255);
+    }
+}
+
+@-moz-keyframes ballsWaveG{
+    0%{
+        background-color:rgb(0,0,0);
+    }
+
+    100%{
+        background-color:rgb(255,255,255);
+    }
+}
+
 </style>
+
+    <div id="overlayLoading" style="display: none">
+        <div id="ballsWaveG">
+            <div id="ballsWaveG_1" class="ballsWaveG"></div>
+            <div id="ballsWaveG_2" class="ballsWaveG"></div>
+            <div id="ballsWaveG_3" class="ballsWaveG"></div>
+            <div id="ballsWaveG_4" class="ballsWaveG"></div>
+            <div id="ballsWaveG_5" class="ballsWaveG"></div>
+            <div id="ballsWaveG_6" class="ballsWaveG"></div>
+            <div id="ballsWaveG_7" class="ballsWaveG"></div>
+            <div id="ballsWaveG_8" class="ballsWaveG"></div>
+        </div>
+    </div>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo "Welcome ".$user->name; ?></a></div>
+                <ul class="navbar-nav nav navbar-right">
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">23</a></li>
+                    <li><a href="#">345</a></li>
+                    <li><a href="">ere</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="actions" >
+        <a class="btn btn-default" id="download" target="_blank" style="display: none;">Download as image</a>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="map-canvas" class="container-fluid">
+                    
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="map-canvas2-wrapper">
+
+                    <div id="map-canvas2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxJt45HSxnhUn26cibrRrQin578_9T-Yg"></script>
 
@@ -398,7 +557,7 @@ var c = '';
                 
                 // do something only the first time the map is loaded
                 // $("#btnSave").show();
-                $("#map-canvas2-wrapper").attr("style","overflow : visible;");
+                $("#map-canvas2-wrapper").attr("style","overflow: visible;");
                 html2canvas($("#map-canvas2"), {
                         useCORS: true,
 
@@ -417,7 +576,7 @@ var c = '';
                             // $("#map-canvas3").append(canvas);
                             // Clean up 
                             // document.body.removeChild(canvas);
-                            $("#map-canvas2-wrapper").attr("style","overflow : auto;");
+                            $("#map-canvas2-wrapper").attr("style","overflow: auto;");
                              $("#overlayLoading").hide();
 
 
@@ -469,3 +628,6 @@ var c = '';
     }); 
 
 </script>
+
+</body>
+</html>
