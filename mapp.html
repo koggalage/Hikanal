@@ -368,37 +368,47 @@ var c = '';
         var latnEast = 9.93901538800632;
         var lngnEast = 81.5030108865776;
 
-        // var numberOfVerticalLines = 40;
-        // var numberOfHorizontalLines = 25;
+        var numberOfVerticalLines = 40;
+        var numberOfHorizontalLines = 25;
         var topLat = 6.32274338800632;
         var bottomLat = 6.09672638800632;
         var rightLong = 80.0445048865776;
         var leftLong = 79.6798783865776;
 
 
-        var verticalGap = (topLat - bottomLat) / 25;
-        var horizontalGap = (rightLong - leftLong) / 40;
+        var verticalGap = (topLat - bottomLat) / numberOfHorizontalLines;
+        var horizontalGap = (rightLong - leftLong) / numberOfVerticalLines;
+        var halfVerticalGap =verticalGap / 2;
+        var halfHorizontalGap =horizontalGap / 2;
 
-        for (var i = 0; i <= 400; i++) {
+        var latnWestForGridNumbers = latnWest - (halfHorizontalGap * 5);
+        var lngnWestForGridNumbers = lngnWest - (halfHorizontalGap * 5);
 
-            var linecordinates = [
+        var linecordinates = [];
+        var linecordinates2 = [];
+        var numberCordinationsForVerticalGrid = [];
+        var numberCordinationsForHorizontalGrid = [];
+
+        for (var i = 0; i <= 600; i++) {
+
+            linecordinates[i] = [
             {lat : (latnWest), lng: (lngnWest + (verticalGap * i))},
             {lat : (latsWest), lng: (lngsWest + (verticalGap * i))}
             ];
 
-            var linecordinates2 = [
+            linecordinates2[i] = [
             {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
             {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
             ];
 
             var str = 1;
 
-            if(i%10 == 0) {
+            if(i%5 == 0) {
               str = 2;
             }
 
             var gridline = new google.maps.Polyline({
-                path: linecordinates,
+                path: linecordinates[i],
                 geodesic: true,
                 strokeColor: '#000000',
                 strokeOpacity: 1.0,
@@ -408,7 +418,7 @@ var c = '';
             gridline.setMap(map2);
 
             var gridline2 = new google.maps.Polyline({
-                path: linecordinates2,
+                path: linecordinates2[i],
                 geodesic: true,
                 strokeColor: '#000000',
                 strokeOpacity: 1.0,
@@ -416,7 +426,82 @@ var c = '';
             });
 
             gridline2.setMap(map2);
+
+            // ----->
+            numberCordinationsForVerticalGrid[i] = [
+                {lat : (latnWest - (horizontalGap * i)), lng: (lngnWestForGridNumbers + (verticalGap * i))}
+            ];
+
+            numberCordinationsForHorizontalGrid[i] = [
+                {lat : (latnWestForGridNumbers - (horizontalGap * i)), lng: (lngnWest + (verticalGap * i))}
+            ];
         }
+
+        var numberCountHorizontal = 75;
+        var numberCountVertical = 25;
+        var numberCountHorizontalPrint;
+        var numberCountVerticalPrint;
+
+        for (var j = 0; j <600; j++) {
+
+            if (j%5 == 0) {
+
+                for (var x = 0; x < 600; x++) {
+                    
+                    if (x%5 == 0) {
+
+                        numberCountHorizontal = numberCountHorizontal + 5;
+
+                        if (numberCountHorizontal == 100) {
+                            numberCountHorizontal = 0;
+                        }
+
+                        if (numberCountHorizontal == 0 || numberCountHorizontal == 5) {
+                            numberCountHorizontalPrint = "0" + numberCountHorizontal;
+                        }
+
+                        else {
+                            numberCountHorizontalPrint = numberCountHorizontal;
+                        }
+
+                        numberCountVertical = numberCountVertical - 5;
+
+                        if (numberCountVertical == 0 || numberCountVertical == 5) {
+                            numberCountVerticalPrint = "0" + numberCountVertical;                        
+                        }
+
+                        else {
+                            numberCountVerticalPrint = numberCountVertical;
+                        }
+
+                        if (numberCountVertical == 0) {
+                            numberCountVertical = 100;                        
+                        }
+
+                        var iconUrlVertical = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountVerticalPrint + "|FE6256|000000";
+                        var iconUrlHorizontal = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountHorizontalPrint + "|FFFF00|000000";
+
+                        var markerVertical = new google.maps.Marker({  
+                            position: new google.maps.LatLng(numberCordinationsForVerticalGrid[x][0].lat,numberCordinationsForVerticalGrid[j][0].lng),   
+                            map: map2,
+                            icon: iconUrlVertical
+                        });
+
+                        var markerHorizontal = new google.maps.Marker({  
+                            position: new google.maps.LatLng(numberCordinationsForHorizontalGrid[j][0].lat,numberCordinationsForHorizontalGrid[x][0].lng),   
+                            map: map2,
+                            icon: iconUrlHorizontal
+                        });
+                    }
+                }
+
+            }
+          
+          
+        }
+
+
+
         google.maps.event.addListenerOnce(map2, 'idle', function(){
             google.maps.event.addListenerOnce(map2, 'tilesloaded', function(){
                 
