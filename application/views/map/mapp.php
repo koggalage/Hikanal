@@ -17,11 +17,10 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="map-canvas" class="container-fluid">
-                    
                 </div>
             </div>
             <div class="col-md-8">
-                <div id="map-canvas2-wrapper">
+                <div id="map-canvas2-wrapper" style="display: none">
 
                     <div id="map-canvas2"></div>
                 </div>
@@ -117,7 +116,7 @@ $(function() {
             for (var y = 0; y < numberOfBoxes; y++ ) {
 
                 if (x == 5 && (y == 2 || y == 3 || y == 4)) {
-                    drawLengthyRectangle(map);
+                    drawLengthyRectangle(map, y);
                 }
 
                 else {
@@ -170,8 +169,14 @@ $(function() {
             }
         }
     }
+    var lengthymaps  = [];
+        lengthymaps[2] = "57-58";
+        lengthymaps[3] = "64-65";
+        lengthymaps[4] = "71-72";
+    function drawLengthyRectangle(map, mapNo) {
 
-    function drawLengthyRectangle(map) {
+console.log(lengthymaps[mapNo]);
+        mapLable = lengthymaps[mapNo];
 
         var southWestLat = 6.77477738800632;
         var southWestLng = 81.5030108865776;
@@ -199,6 +204,7 @@ $(function() {
                     //fillColor: '#FF0000',
                     fillOpacity: 0.05,
                     // fillOpacity: 0.35,
+                    title: mapLable,
                     map: map,
                     bounds: areaBounds
                 });
@@ -242,6 +248,7 @@ $(function() {
           });
         rectangle.setMap(map);
         rectangle.addListener('dragend', function() {
+            $("#map-canvas2-wrapper").show();
             if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
                 showSelectedAreaWithGrid();
             }   else {
@@ -280,36 +287,38 @@ $(function() {
         var lngsWest = 79.6798783865776;
         //northeast corner
         var latnEast = 9.93901538800632;
-        var lngnEast = 81.5030108865776;
+        var lngnEast = 82.5030108865776;
 
         var topLat = 6.32274338800632;
         var bottomLat = 6.09672638800632;
         var rightLong = 80.0445048865776;
         var leftLong = 79.6798783865776;
 
-        var verticalGap = (topLat - bottomLat) / 25;
-        var horizontalGap = (rightLong - leftLong) / 40;
+        // var verticalGap = (topLat - bottomLat) / 25;
+        // var horizontalGap = (rightLong - leftLong) / 40;
+        var verticalGap = 0.009040680000000023;
+        var horizontalGap = 0.009115662400000001;
+        // console.log('verticalGap' + verticalGap);
+        // console.log('horizontalGap' + horizontalGap);
         var halfVerticalGap =verticalGap / 2;
         var halfHorizontalGap =horizontalGap / 2;
 
         var latnWestForGridNumbers = latnWest - (halfHorizontalGap * 5);
         var lngnWestForGridNumbers = lngnWest - (halfHorizontalGap * 5);
 
-        var linecordinates = [];
-        var linecordinates2 = [];
         var numberCordinationsForVerticalGrid = [];
         var numberCordinationsForHorizontalGrid = [];
 
         for (var i = 0; i <= 600; i++) {
 
-            linecordinates[i] = [
-            {lat : (latnWest), lng: (lngnWest + (verticalGap * i))},
-            {lat : (latsWest), lng: (lngsWest + (verticalGap * i))}
+            var linecordinates = [
+                {lat : (latnWest), lng: (lngnWest + (verticalGap * i))},
+                {lat : (latsWest), lng: (lngsWest + (verticalGap * i))}
             ];
 
-            linecordinates2[i] = [
-            {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
-            {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
+            var linecordinates2 = [
+                {lat : (latnWest - (horizontalGap * i)), lng: lngnWest},
+                {lat : (latnEast - (horizontalGap * i)), lng: lngnEast}
             ];
 
             var str = 1;
@@ -319,7 +328,7 @@ $(function() {
             }
 
             var gridline = new google.maps.Polyline({
-                path: linecordinates[i],
+                path: linecordinates,
                 geodesic: true,
                 strokeColor: '#000000',
                 strokeOpacity: 1.0,
@@ -329,7 +338,7 @@ $(function() {
             gridline.setMap(map2);
 
             var gridline2 = new google.maps.Polyline({
-                path: linecordinates2[i],
+                path: linecordinates2,
                 geodesic: true,
                 strokeColor: '#000000',
                 strokeOpacity: 1.0,
@@ -389,10 +398,7 @@ $(function() {
                             numberCountVertical = 100;                        
                         }
 
-                        // var iconUrlVertical = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountVerticalPrint + "|FE6256|000000";
-                        // var iconUrlHorizontal = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + numberCountHorizontalPrint + "|FFFF00|000000";
-
-                        var markerVertical = new google.maps.Marker({  
+                        var markerVertical = new google.maps.Marker({
                             position: new google.maps.LatLng(numberCordinationsForVerticalGrid[x][0].lat,numberCordinationsForVerticalGrid[j][0].lng),   
                             map: map2,
                             icon: "<?php echo  base_url("assets/icons/"); ?>"+numberCountVerticalPrint+".png"
@@ -410,8 +416,8 @@ $(function() {
           
         }
 
-        google.maps.event.addListenerOnce(map2, 'idle', function(){
-            google.maps.event.addListenerOnce(map2, 'tilesloaded', function(){
+        google.maps.event.addListener(map2, 'idle', function(){
+            google.maps.event.addListener(map2, 'tilesloaded', function(){
                 
                 $("#map-canvas2-wrapper").attr("style","overflow: visible;");
                 html2canvas($("#map-canvas2"), {
@@ -429,12 +435,6 @@ $(function() {
         });
                
     }
-
-
-        // $("#convert").click(function() {
-
-        // }
-
         $("#download").click(function() {
             download(c.toDataURL("image/png"), "CustomMap.png", "image/png");
         });

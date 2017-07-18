@@ -139,7 +139,7 @@ class Users extends CI_Controller {
         $con['conditions'] = array('username'=>$str);
         $checkEmail = $this->user->getRows($con);
         if($checkEmail > 0){
-            $this->form_validation->set_message('email_check', 'The given username already exists.');
+            $this->form_validation->set_message('username_check', 'The given username already exists.');
             return FALSE;
         } else {
             return TRUE;

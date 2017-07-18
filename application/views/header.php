@@ -132,7 +132,10 @@ body {
             <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo isset($current_user)?"Welcome ".$current_user->name:""; ?></a></div>
 	            <ul class="navbar-nav nav navbar-right">
 	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
-	                <li><a href="<?php echo base_url('index.php/users/registration'); ?>">Add Users</a></li>
+        
+	                <?php if($this->session->userdata('userType') == "A") : ?>
+	                	<li><a href="<?php echo base_url('index.php/users/registration'); ?>">Add Users</a></li>
+	                <?php endif; ?>
 	                <li><a href="<?php echo base_url('index.php/users/logout'); ?>">Logout</a></li>
 	                <!-- <li><a href="">ere</a></li> -->
 	            </ul>
