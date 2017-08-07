@@ -43,6 +43,13 @@ class User extends CI_Model{
         return $result;
     }
     
+
+    public function set_last_login($user_id) {
+        $this->db->where("id", $user_id);
+        $data[' last_login'] = date("Y-m-d H:i:s");
+        $this->db->update($this->table, $data);
+    }
+
     /*
      * Insert user information
      */

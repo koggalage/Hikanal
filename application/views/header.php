@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">  
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title><?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	<script src="<?php echo base_url("assets/js/html2canvas.js"); ?>" ></script>
-	<script src="<?php echo base_url("assets/js/download.min.js"); ?>" ></script>
-	<script src="<?php echo base_url("assets/js/canvas2image.js"); ?>" ></script>
-	<script src="<?php echo base_url("assets/js/base64.js"); ?>" ></script>
+    <script src="<?php echo base_url("assets/js/html2canvas.js"); ?>" ></script>
+    <script src="<?php echo base_url("assets/js/download.min.js"); ?>" ></script>
+    <script src="<?php echo base_url("assets/js/canvas2image.js"); ?>" ></script>
+    <script src="<?php echo base_url("assets/js/base64.js"); ?>" ></script>
 
-<!--     <script src="html2canvas.js"></script>
-    <script src="download.min.js"></script>
-    <script src="canvas2image.js"></script>
-    <script src="base64.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    
     <style>
 
-body {
-    margin :0;
-    overflow: hidden;
-}
+    body {
+        margin :0;
+        overflow: hidden;
+    }
 
 #overlayLoading {
     opacity: 0.7;
@@ -129,16 +129,18 @@ body {
     <nav class="navbar navbar-default">
         <div class="container-fluid">
         <?php if ($this->session->userdata('isUserLoggedIn')) :?>
-            <div class="navbar-header"><a href="#" class="navbar-brand"><?php echo isset($current_user)?"Welcome ".$current_user->name:""; ?></a></div>
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand"><?php echo isset($current_user)?"Welcome ".$current_user->name:""; ?></a>
+            </div>
 	            <ul class="navbar-nav nav navbar-right">
 	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
         
 	                <?php if($this->session->userdata('userType') == "A") : ?>
-	                	<li><a href="<?php echo base_url('index.php/users/registration'); ?>">Add Users</a></li>
+	                	<li><a href="<?php echo base_url('index.php/users/user_list'); ?>">Users</a></li>
 	                <?php endif; ?>
 	                <li><a href="<?php echo base_url('index.php/users/logout'); ?>">Logout</a></li>
 	                <!-- <li><a href="">ere</a></li> -->
 	            </ul>
-        	</div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </nav>
