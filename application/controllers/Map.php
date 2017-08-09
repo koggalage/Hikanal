@@ -19,6 +19,7 @@ class Map extends CI_Controller {
     
     public function view(){
         $data = array();
+        $data['page_title'] = "Customize Map";
         $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
             //load the view
         $this->load->view('header', $data);

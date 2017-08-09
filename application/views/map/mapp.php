@@ -433,8 +433,9 @@ console.log(lengthymaps[mapNo]);
                     });
             });
         });
-               
     }
+        $("#map-canvas2").draggable({ scroll: false });
+
         $("#download").click(function() {
             download(c.toDataURL("image/png"), "CustomMap.png", "image/png");
         });
