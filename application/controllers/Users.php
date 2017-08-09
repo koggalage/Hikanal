@@ -24,8 +24,9 @@ class Users extends CI_Controller {
     public function user_list(){
         $data['page_title'] = "Users List";
         $data['users'] = $this->user->getRows(['active' => 1]);
-        var_dump($data['users']);
-        $this->load->view('users/user_list', $data);
+        // var_dump($data['users']);
+        $this->load->view('header', $data);
+        $this->load->view('users/users_list', $data);
 
     }
 

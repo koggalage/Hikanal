@@ -47,7 +47,8 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
-
+  
+ALTER TABLE `users` ADD `added_by` INT(11) NOT NULL AFTER `active`;
 --
 -- AUTO_INCREMENT for dumped tables
 --
@@ -62,3 +63,32 @@ ALTER TABLE `users`
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`,`contact_no`, `account_created`, `last_login`, `user_type`, `active`)VALUES (NULL, 'admin', '202cb962ac59075b964b07152d234b70', 'Test Admin', '', '2017-06-28 13:59:50', NULL, 'A', '1');
+
+
+CREATE TABLE `login_history` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ip_address` int(11) NOT NULL,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `success` tinyint(1) NOT NULL
+)
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `login_history`
+--
+ALTER TABLE `login_history`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `login_history`
+--
+ALTER TABLE `login_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
