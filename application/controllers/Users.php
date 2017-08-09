@@ -21,6 +21,14 @@ class Users extends CI_Controller {
     }
 
 
+    public function user_list(){
+        $data['page_title'] = "Users List";
+        $data['users'] = $this->user->getRows(['active' => 1]);
+        var_dump($data['users']);
+        $this->load->view('users/user_list', $data);
+
+    }
+
     public function account(){
         
         redirect('map/view');
@@ -51,7 +59,7 @@ class Users extends CI_Controller {
         }
         if($this->input->post('loginSubmit')){
             $this->form_validation->set_rules('username', 'Username', 'required');
-            $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('password', 'Password', 'required');
             if ($this->form_validation->run()) {
                 $con['returnType'] = 'single';
                 $con['conditions'] = array(
@@ -64,9 +72,10 @@ class Users extends CI_Controller {
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
                     $this->session->set_userdata('userId',$checkLogin->id);
                     $this->session->set_userdata('userType',$checkLogin->user_type);
+                    $this->user->set_last_login($checkLogin->id);
                     redirect('map/view');
                 }else{
-                    $data['error_msg'] = 'Wrong email or password, please try again.';
+                    $data['error_msg'] = 'Wrong username or password, please try again.';
                 }
             }
         }
@@ -101,7 +110,7 @@ class Users extends CI_Controller {
                 'name' => strip_tags($this->input->post('name')),
                 'username' => strip_tags($this->input->post('username')),
                 'password' => md5($this->input->post('password')),
-                // 'gender' => $this->input->post('gender'),
+                'added_by' => $this->session->userdata('userId'),
                 'contact_no' => strip_tags($this->input->post('contact_no'))
             );
 

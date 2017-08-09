@@ -60,3 +60,5 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `users` (`id`, `username`, `password`, `name`,`contact_no`, `account_created`, `last_login`, `user_type`, `active`)VALUES (NULL, 'admin', '202cb962ac59075b964b07152d234b70', 'Test Admin', '', '2017-06-28 13:59:50', NULL, 'A', '1');
