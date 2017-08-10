@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <h2>User Login</h2>

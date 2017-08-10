@@ -7,6 +7,12 @@ class User extends CI_Model{
     /*
      * get rows from the users table
      */
+    function get_login_history(){
+        $this->db->from("login_history");
+        return $this->db->get()->result();
+
+    }
+
     function getRows($params = array()){
 
         $this->db->from($this->table);
@@ -38,15 +44,35 @@ class User extends CI_Model{
                 $result = $query->result();
             }
         }
-
+        // var_dump($params['conditions']); die;
         //return fetched data
         return $result;
     }
     
 
+    public function add_login_attempt($user_id, $ip) {
+        $data['user_id'] = $user_id;
+        $data['ip_address'] = $ip;
+        $data['time'] = date("Y-m-d H:i:s");
+        $data['success'] = true;
+        $this->db->insert('login_history', $data);
+    }
+
     public function set_last_login($user_id) {
         $this->db->where("id", $user_id);
-        $data[' last_login'] = date("Y-m-d H:i:s");
+        $data['last_login'] = date("Y-m-d H:i:s");
+        $this->db->update($this->table, $data);
+    }
+
+    public function disable_user($user_id){
+        $this->db->where("id", $user_id);
+        $data['active'] = 0;
+        $this->db->update($this->table, $data);
+    }
+
+    public function make_user_admin($user_id){
+        $this->db->where("id", $user_id);
+        $data['user_type'] = "A";
         $this->db->update($this->table, $data);
     }
 

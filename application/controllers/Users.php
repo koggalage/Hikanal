@@ -21,9 +21,30 @@ class Users extends CI_Controller {
     }
 
 
+    public function make_admin($user_id){
+        $this->user->make_user_admin($user_id);
+        echo TRUE;
+    }
+
+
+    public function delete_user($user_id){
+        $this->user->disable_user($user_id);
+        echo TRUE;
+    }
+
+    public function login_history(){
+        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+        $data['page_title'] = "Login History";
+        $data['history'] = $this->user->get_login_history();
+        // var_dump($data['users']);
+        $this->load->view('header', $data);
+        $this->load->view('users/login_history', $data);
+    }
+
     public function user_list(){
+        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
         $data['page_title'] = "Users List";
-        $data['users'] = $this->user->getRows(['active' => 1]);
+        $data['users'] = $this->user->getRows(['conditions' => ["active" =>1]]);
         // var_dump($data['users']);
         $this->load->view('header', $data);
         $this->load->view('users/users_list', $data);
@@ -65,7 +86,8 @@ class Users extends CI_Controller {
                 $con['returnType'] = 'single';
                 $con['conditions'] = array(
                     'username'=>$this->input->post('username'),
-                    'password' => md5($this->input->post('password'))
+                    'password' => md5($this->input->post('password')),
+                    'active' => 1
                 );
                 $checkLogin = $this->user->getRows($con);
                 // var_dump($checkLogin); die;
@@ -74,10 +96,12 @@ class Users extends CI_Controller {
                     $this->session->set_userdata('userId',$checkLogin->id);
                     $this->session->set_userdata('userType',$checkLogin->user_type);
                     $this->user->set_last_login($checkLogin->id);
+                    $this->user->add_login_attempt($checkLogin->id, $this->input->ip_address());
                     redirect('map/view');
                 }else{
                     $data['error_msg'] = 'Wrong username or password, please try again.';
                 }
+
             }
         }
         //load the view

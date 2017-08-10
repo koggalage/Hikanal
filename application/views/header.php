@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">  
 <head>
-    <title><?php echo $page_title; ?></title>
+    <title><?php echo isset($page_title)?$page_title:"Customized Maps"; ?></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="  crossorigin="anonymous"></script>
@@ -12,6 +12,12 @@
     <script src="<?php echo base_url("assets/js/base64.js"); ?>" ></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="<?php echo base_url("assets/js/dataTables.bootstrap.min.js"); ?>" ></script>
+    <script src="<?php echo base_url("assets/js/jquery.dataTables.min.js"); ?>" ></script>
+    <link rel="stylesheet" href="<?php echo base_url("assets/css/dataTables.bootstrap.min.css"); ?>">
+
     
     <style>
 
@@ -126,7 +132,7 @@
 
 
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar  navbar-default">
         <div class="container-fluid">
         <?php if ($this->session->userdata('isUserLoggedIn')) :?>
             <div class="navbar-header">
@@ -136,7 +142,8 @@
 	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
         
 	                <?php if($this->session->userdata('userType') == "A") : ?>
-	                	<li><a href="<?php echo base_url('index.php/users/user_list'); ?>">Users</a></li>
+                        <li><a href="<?php echo base_url('index.php/users/user_list'); ?>">Users</a></li>
+	                	<li><a href="<?php echo base_url('index.php/users/login_history'); ?>">Login History</a></li>
 	                <?php endif; ?>
 	                <li><a href="<?php echo base_url('index.php/users/logout'); ?>">Logout</a></li>
 	                <!-- <li><a href="">ere</a></li> -->
