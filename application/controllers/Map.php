@@ -5,11 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * User Management class created by CodexWorld
  */
-class Map extends CI_Controller {
+class Map extends MY_Controller {
     
     function __construct() {
         parent::__construct();
-        if(!$this->session->userdata('isUserLoggedIn')){
+        if(!$this->require_min_level(1)){
             redirect('users/login');
         }
 
@@ -20,7 +20,7 @@ class Map extends CI_Controller {
     public function view(){
         $data = array();
         $data['page_title'] = "Customize Map";
-        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+        // $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
             //load the view
         $this->load->view('header', $data);
         $this->load->view('map/mapp', $data);

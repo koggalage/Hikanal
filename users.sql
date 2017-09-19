@@ -68,7 +68,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `name`,`contact_no`, `account
 CREATE TABLE `login_history` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `ip_address` VARCHAR(50) NOT NULL;
+  `ip_address` VARCHAR(50) NOT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `success` tinyint(1) NOT NULL
 )
@@ -92,3 +92,5 @@ ALTER TABLE `login_history`
 --
 ALTER TABLE `login_history`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `users` ADD UNIQUE(`username`);

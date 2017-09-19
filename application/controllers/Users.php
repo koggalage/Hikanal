@@ -3,17 +3,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 // if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Users extends CI_Controller {
+class Users extends MY_Controller {
     
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->helper('url');
+        $this->load->helper('form');
         $this->load->model('user');
     }
     
     public function index(){
         $data = array();
-        if($this->session->userdata('isUserLoggedIn')){
+        if($this->is_logged_in()){
             redirect('map/view');
         }else{
             redirect('users/login');
@@ -112,17 +114,16 @@ class Users extends CI_Controller {
     public function registration(){
         if($this->session->userdata('userType') != "A"){
             redirect('map/view');
-
         }
         $data = array();
         $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
-        if($this->session->userdata('success_msg')){
-            $data['success_msg'] = $this->session->userdata('success_msg');
-            $this->session->unset_userdata('success_msg');
+        if($this->session->flashdata('success_msg')){
+            $data['success_msg'] = $this->session->flashdata('success_msg');
+            // $this->session->unset_userdata('success_msg');
         }
-        if($this->session->userdata('error_msg')){
-            $data['error_msg'] = $this->session->userdata('error_msg');
-            $this->session->unset_userdata('error_msg');
+        if($this->session->flashdata('error_msg')){
+            $data['error_msg'] = $this->session->flashdata('error_msg');
+            // $this->session->unset_userdata('error_msg');
         }
         $userData = array();
         if($this->input->post('regisSubmit')){
@@ -142,8 +143,8 @@ class Users extends CI_Controller {
             if($this->form_validation->run()){
                 $insert = $this->user->insert($userData);
                 if($insert){
-                    $this->session->set_userdata('success_msg', 'Your registration was successfully. Please login to your account.');
-                    // redirect('users/login');
+                    $this->session->set_flashdata('success_msg', 'Your registration was successfully. Please login to your account.');
+                    redirect('users/user_list');
                 }else{
                     $data['error_msg'] = 'Some problems occured, please try again.';
                 }
@@ -158,11 +159,15 @@ class Users extends CI_Controller {
     /*
      * User logout
      */
-    public function logout(){
-        $this->session->unset_userdata('isUserLoggedIn');
-        $this->session->unset_userdata('userId');
-        $this->session->sess_destroy();
-        redirect('users/login/');
+    
+    public function logout()
+    {
+        $this->authentication->logout();
+
+        // Set redirect protocol
+        $redirect_protocol = USE_SSL ? 'https' : NULL;
+
+        redirect( site_url( LOGIN_PAGE . '?' . AUTH_LOGOUT_PARAM . '=1', $redirect_protocol ) );
     }
     
     /*

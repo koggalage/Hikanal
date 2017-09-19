@@ -2,6 +2,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <?php if (isset($success_msg)) :?>
+                <div class="row">
+                    <p class="text-success"><?php echo $success_msg; ?></p>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($error_msg)) :?>
+                <div class="row">
+                    <p class="text-success"><?php echo $error_msg; ?></p>
+                </div>
+            <?php endif; ?>
             <div class="row">
                 
                     <a href="<?php echo base_url("index.php/users/registration"); ?>"><!-- <i class="glyphicon glyphicon-plus"></i> --><button class="btn btn-primary">Add User</button></a>
