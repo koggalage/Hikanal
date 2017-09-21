@@ -18,7 +18,7 @@ class Users extends MY_Controller {
         if($this->is_logged_in()){
             redirect('map/view');
         }else{
-            redirect('users/login');
+            redirect('/login');
         }
     }
 
@@ -69,10 +69,15 @@ class Users extends MY_Controller {
     
 
     public function login(){
-        if($this->session->userdata('isUserLoggedIn')){
-            redirect('map/view');
-        }
-        $data = array();
+        if( $this->uri->uri_string() == 'users/login')
+            show_404();
+
+        if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
+            $this->require_min_level(1);
+
+        $this->setup_login_form();
+
+/*        $data = array();
         if($this->session->userdata('success_msg')){
             $data['success_msg'] = $this->session->userdata('success_msg');
             $this->session->unset_userdata('success_msg');
@@ -88,7 +93,7 @@ class Users extends MY_Controller {
                 $con['returnType'] = 'single';
                 $con['conditions'] = array(
                     'username'=>$this->input->post('username'),
-                    'password' => md5($this->input->post('password')),
+                    'passwd' => md5($this->input->post('password')),
                     'active' => 1
                 );
                 $checkLogin = $this->user->getRows($con);
@@ -105,10 +110,12 @@ class Users extends MY_Controller {
                 }
 
             }
-        }
+        }*/
         //load the view
-        $this->load->view('header', $data);
-        $this->load->view('users/login', $data);
+
+        $html = $this->load->view('header', $data, TRUE);
+        $html .= $this->load->view('users/login', $data, TRUE);
+        echo $html;
     }
     
     public function registration(){

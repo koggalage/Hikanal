@@ -12,10 +12,12 @@
 
     <div class="actions" >
         <a class="btn btn-primary btn-lg" id="download" target="_blank" style="display: none;"><i class="glyphicon glyphicon-download-alt"></i> Download as image</a>
+        <a class="btn btn-danger btn-lg" id="tog" style=""><i class="glyphicon glyphicon glyphicon-cog"></i> Satalite View</a>
+        <input type="hidden" id="map-type" value="road">
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-4" id="map-canvas-wrapper">
                 <div id="map-canvas" class="container-fluid">
                 </div>
             </div>
@@ -41,12 +43,16 @@ $(function() {
         mapOptions = {
             zoom: 8,
             streetViewControl: false,
+            mapTypeControl: false,
+            zoomControl: false,
+            fullscreenControl: false,
             center: myLatlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListenerOnce(map, 'idle', function() {
             drawRectangle(map);
+            drawLengthyRectangle(map);
         });
     }
 
@@ -116,7 +122,7 @@ $(function() {
             for (var y = 0; y < numberOfBoxes; y++ ) {
 
                 if (x == 5 && (y == 2 || y == 3 || y == 4)) {
-                    drawLengthyRectangle(map, y);
+                    // drawLengthyRectangle(map, y);
                 }
 
                 else {
@@ -170,13 +176,11 @@ $(function() {
         }
     }
     var lengthymaps  = [];
-        lengthymaps[2] = "57-58";
-        lengthymaps[3] = "64-65";
-        lengthymaps[4] = "71-72";
-    function drawLengthyRectangle(map, mapNo) {
+        lengthymaps[0] = "57-58";
+        lengthymaps[1] = "64-65";
+        lengthymaps[2] = "71-72";
 
-console.log(lengthymaps[mapNo]);
-        mapLable = lengthymaps[mapNo];
+    function drawLengthyRectangle(map) {
 
         var southWestLat = 6.77477738800632;
         var southWestLng = 81.5030108865776;
@@ -188,39 +192,37 @@ console.log(lengthymaps[mapNo]);
         var tileWidth = (northEastLng - southWestLng) / numberOfParts;
         var tileHeight = (northEastLat - southWestLat) / numberOfParts;
 
-        for (var x = 0; x < 1; x++) {
-            for (var y = 0; y < 3; y++ ) {
-                var areaBounds = {
-                    north: southWestLat + (tileHeight * (y+1)),
-                    south: southWestLat + (tileHeight * y),
-                    east: southWestLng + (tileWidth * (x+1)),
-                    west: southWestLng + (tileWidth * x)
-                };
+        for (var y = 0; y < 3; y++ ) {
+            var areaBounds = {
+                north: southWestLat + (tileHeight * (y+1)),
+                south: southWestLat + (tileHeight * y),
+                east: southWestLng + (tileWidth),
+                west: southWestLng
+            };
 
-                var area = new google.maps.Rectangle({
-                    strokeColor: '#000000',
-                    //strokeOpacity: 0.8,
-                    strokeWeight: 0.5,
-                    //fillColor: '#FF0000',
-                    fillOpacity: 0.05,
-                    // fillOpacity: 0.35,
-                    title: mapLable,
-                    map: map,
-                    bounds: areaBounds
-                });
+            var area = new google.maps.Rectangle({
+                strokeColor: '#000000',
+                fillColor: '#000000',
+                strokeWeight: 0.5,
+                fillOpacity: 0.05,
+                label: "21",
+                title: "21",
+                map: map,
+                bounds: areaBounds
+            });
 
-                var centerMark = new google.maps.Marker({
-                    position: area.getBounds().getCenter(),
-                    map: map,
-                    area: areaBounds,
-                });
+        console.log(lengthymaps[y]);
+            var centerMark = new google.maps.Marker({
+                position: area.getBounds().getCenter(),
+                map: map,
+                area: areaBounds,
+            });
 
-                google.maps.event.addListener(centerMark, 'click', function(evt) {
-
-                    initMap(this.position.lat(), this.position.lng(), this.area);
-                });
-            }
+            google.maps.event.addListener(centerMark, 'click', function(evt) {
+                initMap(this.position.lat(), this.position.lng(), this.area);
+            });
         }
+        
     }    
     // }
     var rectangle;
@@ -237,9 +239,6 @@ console.log(lengthymaps[mapNo]);
             streetViewControl : false,
 
         });
-        google.maps.event.addListenerOnce(map, 'idle', function() {
-            // drawRectangle(map, false);
-        });
 
         rectangle = new google.maps.Rectangle({
             bounds: inbounds,
@@ -248,6 +247,7 @@ console.log(lengthymaps[mapNo]);
           });
         rectangle.setMap(map);
         rectangle.addListener('dragend', function() {
+            $("#map-canvas-wrapper").removeClass('col-md-offset-4');
             $("#map-canvas2-wrapper").show();
             if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
                 showSelectedAreaWithGrid();
@@ -268,12 +268,24 @@ console.log(lengthymaps[mapNo]);
 
         var bounds = new google.maps.LatLngBounds(sWest,nEast);
 
+        var type_id = google.maps.MapTypeId.ROADMAP;
+        var linecolor = '#000000';
+
+        if ($("#map-type").val() == "sat") {
+            type_id = google.maps.MapTypeId.SATELLITE;
+            linecolor = '#FFFFFF';
+        }
+
         map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
             scrollwheel: false,
+            mapTypeControl: false,
             draggable: false,
+            zoomControl: false,
+            fullscreenControl: false,
             disableDoubleClickZoom: true,
             disableDefaultUI: false,
             streetViewControl : false,
+            mapTypeId: type_id
         });
 
         map2.fitBounds(bounds);
@@ -330,7 +342,7 @@ console.log(lengthymaps[mapNo]);
             var gridline = new google.maps.Polyline({
                 path: linecordinates,
                 geodesic: true,
-                strokeColor: '#000000',
+                strokeColor: linecolor,
                 strokeOpacity: 1.0,
                 strokeWeight: str
             });
@@ -340,7 +352,7 @@ console.log(lengthymaps[mapNo]);
             var gridline2 = new google.maps.Polyline({
                 path: linecordinates2,
                 geodesic: true,
-                strokeColor: '#000000',
+                strokeColor: linecolor,
                 strokeOpacity: 1.0,
                 strokeWeight: str
             });
@@ -417,7 +429,9 @@ console.log(lengthymaps[mapNo]);
         }
 
         google.maps.event.addListener(map2, 'idle', function(){
+            // console.log("hi");
             google.maps.event.addListener(map2, 'tilesloaded', function(){
+                // console.log("hi2");
                 
                 $("#map-canvas2-wrapper").attr("style","overflow: visible;");
                 html2canvas($("#map-canvas2"), {
@@ -426,6 +440,7 @@ console.log(lengthymaps[mapNo]);
                 onrendered: function(canvas) {
                     c = canvas;
                             $("#download").show(); 
+                            // $("#tog").show(); 
                             $("#map-canvas2-wrapper").attr("style","overflow: scroll;");
                             $("#overlayLoading").hide();
 
@@ -439,6 +454,20 @@ console.log(lengthymaps[mapNo]);
         $("#download").click(function() {
             download(c.toDataURL("image/png"), "CustomMap.png", "image/png");
         });
+
+        $("#tog").click(function() {
+            if ($("#map-type").val() == "road") {
+                $("#map-type").val("sat");
+                $("#tog").text("Road Map");
+            } else {
+                $("#map-type").val("road");
+                $("#tog").text("Satalite View");
+            }
+            $("#map-canvas2-wrapper").hide();
+            $("#map-canvas-wrapper").addClass('col-md-offset-4');
+            initialize(); 
+        });
+
         google.maps.event.addDomListener(window, "load", initialize);
     }); 
 
