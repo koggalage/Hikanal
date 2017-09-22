@@ -1,5 +1,10 @@
-
-<div class="container-fluid">
+        <div class="col-md-4 " style="background-image: url(<?php echo base_url('assets/img/bbc.png'); ?>); height:6000px; margin-top: -20px">
+            <div>
+            <img src="<?php echo base_url('assets/img/image2.png'); ?>" alt="" style=" width: 90%; margin-left: 5%; margin-top: 40%"> 
+                
+            </div>
+        </div> 
+<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <?php if (isset($success_msg)) :?>
@@ -27,11 +32,11 @@
                             <thead>
                                 <tr>
                                     <th>Username</th>
-                                    <th>Full Name</th>
+                                    <!-- <th>Full Name</th> -->
                                     <th>Contact</th>
-                                    <th>Added Date</th>
-                                    <th>Type</th>
-                                    <th>Added By</th>
+                                    <!-- <th>Added Date</th> -->
+                                    <!-- <th>Type</th> -->
+                                    <!-- <th>Added By</th> -->
                                     <?php if ($this->session->userdata('userType') == "A") : ?>
                                         <th></th>
                                         <th></th>
@@ -40,13 +45,13 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($users as $user) : ?>
-                                    <tr data-user-id="<?php echo $user->id; ?>" data-user-name="<?php echo $user->name; ?>">
+                                    <tr data-user-id="<?php echo $user->user_id; ?>" data-user-name="<?php echo $user->username; ?>">
                                         <td><?php echo $user->username; ?></td>
-                                        <td><?php echo $user->name; ?></td>
-                                        <td><?php echo $user->contact_no; ?></td>
-                                        <td><?php echo $user->account_created; ?></td>
-                                        <td><?php echo ($user->user_type == "A")?"Admin":"User"; ?></td>
-                                        <td><?php echo get_user_name($user->added_by); ?></td>
+                                        <!-- <td><?php echo $user->name; ?></td> -->
+                                        <td><?php echo $user->email; ?></td>
+                                        <!-- <td><?php echo $user->account_created; ?></td> -->
+                                        <!-- <td><?php echo ($user->user_type == "A")?"Admin":"User"; ?></td> -->
+                                        <!-- <td><?php echo get_user_name($user->added_by); ?></td> -->
                                         <?php if ($this->session->userdata('userType') == "A") : ?>
                                             <?php if ($user->user_type != "A") : ?>
                                                 <td><button type="button" class="btn btn-flat btn-warning make-admin">Make Admin</button></td>

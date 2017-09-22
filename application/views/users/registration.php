@@ -1,9 +1,15 @@
-
+        <div class="col-md-4 " style="background-image: url(<?php echo base_url('assets/img/bbc.png'); ?>); height:6000px; margin-top: -20px">
+            <div>
+            <img src="<?php echo base_url('assets/img/image2.png'); ?>" alt="" style=" width: 90%; margin-left: 5%; margin-top: 40%"> 
+                
+            </div>
+        </div> 
+        <div class="col-md-8 " style="border-radius: 0px; margin-top: 5%">
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
     
-            <h2>Add User</h2>
+            <h2>Add User</h2> <br/><br/> <br/><br/>
             <form action="" method="post">
                 <div class="form-group">
                     <input type="text" class="form-control" name="name" placeholder="Name" required value="<?php echo !empty($user['name'])?$user['name']:''; ?>">
@@ -30,6 +36,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

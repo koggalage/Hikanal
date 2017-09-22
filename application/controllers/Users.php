@@ -44,9 +44,9 @@ class Users extends MY_Controller {
     }
 
     public function user_list(){
-        $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
+        // $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
         $data['page_title'] = "Users List";
-        $data['users'] = $this->user->getRows(['conditions' => ["active" =>1]]);
+        $data['users'] = $this->user->getRows();
         // var_dump($data['users']);
         $this->load->view('header', $data);
         $this->load->view('users/users_list', $data);
@@ -119,9 +119,9 @@ class Users extends MY_Controller {
     }
     
     public function registration(){
-        if(!$this->require_role('admin')){
-            redirect('map/view');
-        }
+        // if(!$this->require_role('admin')){
+        //     redirect('map/view');
+        // }
         $data = array();
         // $data['current_user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
         if($this->session->flashdata('success_msg')){

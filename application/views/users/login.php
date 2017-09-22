@@ -6,13 +6,11 @@
             </div>
         </div>        
         <div class="col-md-8 " style="">
-            <div style="height:30%;"></div>
-            <div style="height:40%;" class="text-center">
             <div class="row">
                 
                 <div  class="col-md-8 col-md-offset-2" style="border-radius: 10px;  margin-top: 5%" >
-                        <h1>CUSTOMIZED MILITARY MAP PROJECTION FOR SRI LANKA ARMY</h1> <br/><br/>
-                        <h3>(BASED ON STANDARD 1:50000 MAPS AND REAL-TIME AERIAL IMAGES)</h3>
+                        <h2>CUSTOMIZED MILITARY MAP PROJECTION </h2><h2> FOR SRI LANKA ARMY</h2> <br/><br/>
+                        <h3>(BASED ON STANDARD 1:50000 MAPS AND </h3><h3> REAL-TIME AERIAL IMAGES)</h3>
                 </div>        
             </div>
             <div class="row">
