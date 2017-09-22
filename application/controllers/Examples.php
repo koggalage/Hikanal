@@ -192,9 +192,9 @@ class Examples extends MY_Controller
 	{
 		// Customize this array for your user
 		$user_data = [
-			'username'   => 'admin',
+			'username'   => 'admin2',
 			'passwd'     => 'Admin123',
-			'email'      => 'aaa@example.com',
+			'email'      => 'aaaa@example.com',
 			'auth_level' => '1', // 9 if you want to login @ examples/index.
 		];
 

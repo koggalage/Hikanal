@@ -129,19 +129,17 @@
 
 </style>
 </head>
-
-
 <body>
     <nav class="navbar  navbar-default">
         <div class="container-fluid">
-        <?php if ($this->session->userdata('isUserLoggedIn')) :?>
+        <?php if (isset($auth_user_id)) :?>
             <div class="navbar-header">
                 <a href="#" class="navbar-brand"><?php echo $auth_user_id; ?></a>
             </div>
 	            <ul class="navbar-nav nav navbar-right">
 	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
         
-	                <?php if($this->session->userdata('userType') == "A") : ?>
+	                <?php if($this->verify_role('admin')) : ?>
                         <li><a href="<?php echo base_url('index.php/users/user_list'); ?>">Users</a></li>
 	                	<li><a href="<?php echo base_url('index.php/users/login_history'); ?>">Login History</a></li>
 	                <?php endif; ?>
@@ -150,4 +148,4 @@
 	            </ul>
             <?php endif; ?>
         </div>
-    </nav>
+    </nav><!--nav -->
