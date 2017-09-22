@@ -10,11 +10,11 @@
                 
                 <div  class="col-md-8 col-md-offset-2" style="border-radius: 10px;  margin-top: 5%" >
                         <h2 align="center">CUSTOMIZED MILITARY MAP PROJECTION FOR SRI LANKA ARMY</h2> <br/><br/>
-                        <h3>(BASED ON STANDARD 1:50000 MAPS AND REAL-TIME AERIAL IMAGES)</h3>
+                        <h3 align="center">(BASED ON STANDARD 1:50000 MAPS AND REAL-TIME AERIAL IMAGES)</h3>
                 </div>        
             </div>
             <div class="row">
-                <div  class="col-md-4 col-md-offset-6" style="border-radius: 0px; margin-top: 15%" >
+                <div  class="col-md-4 col-md-offset-6" style="border-radius: 0px; margin-top: 10%" >
                     <?php if (!isset($on_hold_message)) { ?>
                         <?php if (isset($login_error_mesg)) { ?>
                             <div class="form-group col-md-10 pull-right" style="border-radius: 0px;">

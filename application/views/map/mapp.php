@@ -68,24 +68,24 @@ $(function() {
         var tileWidth = (northEastLng - southWestLng) / numberOfParts;
         var tileHeight = (northEastLat - southWestLat) / numberOfParts;
 
-        var southEastLat = [
-            "6.096726388006320",
-            "5.870709388006320",
-            "5.870709388006320",
-            "5.870709388006320",
-            "6.096726388006320",
-            "6.322743388006320",
-            "9.351371188006320"
+        var southWestLat = [
+            6.096726388006320,
+            5.870709388006320,
+            5.870709388006320,
+            5.870709388006320,
+            6.096726388006320,
+            6.322743388006320,
+            9.351371188006320
         ];
 
         var southEastLng = [
-            "79.679878386577600",
-            "80.044504886577600",
-            "80.409131386577600",
-            "80.773757886577600",
-            "81.138384386577600",
-            "81.503010886577600",
-            "79.388177186577600" 
+            79.679878386577600,
+            80.044504886577600,
+            80.409131386577600,
+            80.773757886577600,
+            81.138384386577600,
+            81.503010886577600,
+            79.388177186577600 
         ];
 
         var mapNumbers = ["85", "79", "73", "66", "59", "52", "46", "40", "34", "29", "24", "19", "15", "11", "07", "03", "01", "90", "86", "80", "74", "67", "60", "53", "47", "41", "35", "30", "25", "20", "16", "12", "08", "04", "02", "91", "87", "81", "75", "68", "61", "54", "48", "42", "36", "31", "26", "21", "17", "13", "09", "05", "92", "88", "82", "76", "69", "62", "55", "49", "43", "37", "32", "27", "22", "18", "14", "10",  "89", "83", "77", "70", "63", "56", "50", "44", "38", "33", "28", "23", "84", "78", "51", "45", "39", "06"];
@@ -127,7 +127,7 @@ $(function() {
 
                 else {
 
-                    var latCurrent = parseFloat(southEastLat[x]);
+                    var latCurrent = parseFloat(southWestLat[x]);
                     if(x >0 && x != 6) {
                         z = x-x;
                     }
@@ -250,7 +250,7 @@ $(function() {
             $("#map-canvas-wrapper").removeClass('col-md-offset-4');
             $("#map-canvas2-wrapper").show();
             if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
-                showSelectedAreaWithGrid();
+                showSelectedAreaWithGridNew();
             }   else {
                 rectangle.setBounds(inbounds);
                 map.setCenter(new google.maps.LatLng(centerLat, centerLng));
@@ -260,6 +260,158 @@ $(function() {
     }
 
 
+    function showSelectedAreaWithGridNew(event) {
+        var southWestLat = 7.45282838800632;
+        var southWestLng = 80.7737578865776;
+        var northEastLat = 8.13087938800633;
+        var northEastLng = 81.8676373865776;
+
+        var kiloMeterWidth = (northEastLng - southWestLng) / 120;
+        // var kiloMeterWidth = 0.009236;
+        // var kiloMeterWidth = 0.0095056625;
+        var kiloMeterHeight = (northEastLat - southWestLat) / 75;
+        // var kiloMeterHeight = 0.009045780000000129;
+        console.log(kiloMeterWidth);
+
+        //top most
+
+        var topMostMap_southWestLat = 9.71299838800632;
+        var topMostMap_southWestLng = 79.6798783865776;
+        var topMostMap_northEastLat = 9.577388188006330;
+        var topMostMap_northEastLng = 80.044504886577600;
+
+        var topMostMap_kiloMeterWidth = (topMostMap_northEastLng - topMostMap_southWestLng) / 40;
+        // var topMostMap_kiloMeterHeight = (topMostMap_northEastLat - topMostMap_southWestLat) / 25;
+        console.log(topMostMap_kiloMeterWidth);
+
+        //bottom most
+
+        var bottomMostMap_southWestLat = 5.87070938800632;
+        var bottomMostMap_southWestLng = 80.0445048865776;
+        var bottomMostMap_northEastLat = 6.09672638800632;
+        var bottomMostMap_northEastLng = 80.4091313865776;
+
+        var bottomMostMap_kiloMeterWidth = (bottomMostMap_northEastLng - bottomMostMap_southWestLng) / 40;
+        // var bottomMostMap_kiloMeterHeight = (bottomMostMap_northEastLat - bottomMostMap_southWestLat) / 25;
+
+        console.log(bottomMostMap_kiloMeterWidth);
+
+
+        var northMostLat = 9.939015388006320;
+        var southMostLat = 5.870709388006320;
+        var westMostLng = 79.679878386577600;
+        var eastMostLng = 81.884957145327600;
+        
+        // $("#overlayLoading").show();
+        var nEast = rectangle.getBounds().getNorthEast();
+        var sWest = rectangle.getBounds().getSouthWest();
+
+        var bounds = new google.maps.LatLngBounds(sWest,nEast);
+
+        var type_id = google.maps.MapTypeId.ROADMAP;
+        var linecolor = '#000000';
+
+        if ($("#map-type").val() == "sat") {
+            type_id = google.maps.MapTypeId.SATELLITE;
+            linecolor = '#FFFFFF';
+        }
+
+        map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
+            // scrollwheel: false,
+            // mapTypeControl: false,
+            // draggable: false,
+            // zoomControl: false,
+            // fullscreenControl: false,
+            // disableDoubleClickZoom: true,
+            disableDefaultUI: false,
+            // streetViewControl : false,
+            // mapTypeId: type_id
+        });
+
+        map2.fitBounds(bounds);
+        map2.setZoom(14);
+
+        for (var i = 0; i <= 600; i++) {
+
+            var linecordinates = [
+                {lat : (northMostLat), lng: (westMostLng + (kiloMeterWidth * i))},
+                {lat : (southMostLat), lng: (westMostLng + (kiloMeterWidth * i))}
+            ];
+
+            var linecordinates2 = [
+                {lat : (northMostLat - (kiloMeterHeight * i)), lng: westMostLng},
+                {lat : (northMostLat - (kiloMeterHeight * i)), lng: eastMostLng}
+            ];
+
+            var str = 1;
+
+            if(i%5 == 0) {
+              str = 2;
+            }
+        var symbolOne = {
+          path: 'M -2,0 0,-2 2,0 0,2 z',
+          strokeColor: '#F00',
+          fillColor: '#F00',
+          fillOpacity: 1
+        };
+
+        var symbolTwo = {
+          path: 'M -1,0 A 1,1 0 0 0 -3,0 1,1 0 0 0 -1,0M 1,0 A 1,1 0 0 0 3,0 1,1 0 0 0 1,0M -3,3 Q 0,5 3,3',
+          strokeColor: '#00F',
+          rotation: 45
+        };
+
+        var symbolThree = {
+          path: 'M -2,-2 2,2 M 2,-2 -2,2',
+          strokeColor: '#292',
+          strokeWeight: 4
+        };
+            var gridline = new google.maps.Polyline({
+                path: linecordinates,
+                geodesic: true,
+                strokeColor: linecolor,
+                strokeOpacity: 1.0,
+                strokeWeight: str,
+                icons: [
+                        {
+                          icon: "<?php echo  base_url("assets/icons/"); ?>00.png",
+                          offset: '0%'
+                        }, {
+                          icon: symbolTwo,
+                          offset: '50%'
+                        }, {
+                          icon: symbolThree,
+                          offset: '100%'
+                        }
+                      ],
+            });
+
+            gridline.setMap(map2);
+
+            var gridline2 = new google.maps.Polyline({
+                path: linecordinates2,
+                geodesic: true,
+                strokeColor: linecolor,
+                strokeOpacity: 1.0,
+                strokeWeight: str
+            });
+
+            gridline2.setMap(map2);
+
+            // ----->
+            // numberCordinationsForVerticalGrid[i] = [
+            //     {lat : (latnWest - (horizontalGap * i)), lng: (lngnWestForGridNumbers + (verticalGap * i))}
+            // ];
+
+            // numberCordinationsForHorizontalGrid[i] = [
+            //     {lat : (latnWestForGridNumbers - (horizontalGap * i)), lng: (lngnWest + (verticalGap * i))}
+            // ];
+        }
+
+    }
+
+
+/*
     function showSelectedAreaWithGrid(event) {
         
         $("#overlayLoading").show();
@@ -292,14 +444,22 @@ $(function() {
         map2.setZoom(14);
 
         //northwest corner
-        var latnWest = 9.93901538800632;
-        var lngnWest = 79.6798783865776;
+        // var latnWest = 9.93901538800632;
+        // var lngnWest = 79.6798783865776;
+
+        var latnWest =  9.92475538800632;;
+        var lngnWest = 79.3400085115776;
         //southwest corner
         var latsWest = 5.87070938800632;
-        var lngsWest = 79.6798783865776;
+        // var lngsWest = 79.6798783865776;
+
+        var lngsWest = 79.4064085115776
         //northeast corner
+        // var latnEast = 9.93901538800632;
+        // var lngnEast = 82.5030108865776;
+
         var latnEast = 9.93901538800632;
-        var lngnEast = 82.5030108865776;
+        var lngnEast = 82.8849571453276
 
         var topLat = 6.32274338800632;
         var bottomLat = 6.09672638800632;
@@ -467,6 +627,9 @@ $(function() {
             $("#map-canvas-wrapper").addClass('col-md-offset-4');
             initialize(); 
         });
+
+*/
+
 
         google.maps.event.addDomListener(window, "load", initialize);
     }); 
