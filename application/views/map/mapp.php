@@ -51,9 +51,10 @@ $(function() {
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListenerOnce(map, 'idle', function() {
-            // drawRectangle(map);
-            drawGrid(map);
-            drawLengthyRectangleGrid(map);
+            drawRectangle(map);
+            // drawGrid(map);
+            drawLengthyRectangle(map);
+            // drawLengthyRectangleGrid(map);
         });
     }
 
@@ -359,34 +360,41 @@ $(function() {
         var numberOfBoxes;
         var easting;
         var northing;
+        var blody;
         for (var x = 0; x < 7; x++) {
 
             if(x == 0) {
                 numberOfBoxes = 17;
                 easting = 80;
+                blody = 0;
             }
             else if(x == 1) {
                 numberOfBoxes = 18;
+                blody = 1;
                 easting = 20;
             }
             else if(x == 2) {
                 numberOfBoxes = 17;
                 easting = 60;
+                blody = 1;
             }
 
             else if(x == 3) {
                 numberOfBoxes = 16;
                 easting = 00;
+                blody = 1;
             }
 
             else if(x == 4) {
                 numberOfBoxes = 12;
                 easting = 40;
+                blody = 0;
             }
 
             else if(x == 5) {
                 numberOfBoxes = 8;
                 easting = 80;
+                blody = -1;
             }
 
             else if(x == 6) {
@@ -397,6 +405,41 @@ $(function() {
             for (var y = 0; y < numberOfBoxes; y++ ) {
 
                 if (!(x == 5 && (y == 2 || y == 3 || y == 4))) {
+                    if (x == 6) {
+                        northing = 85;
+                    } else {
+                        var yf = y - blody;
+                        // if (x>0) { yf = y -2 }
+                        // console.log((yf%4) +"yfm")
+                        // console.log((yf) +"yf")
+                        // console.log(x +"x")
+                        if (yf<0) {
+                            yf = 3;
+                        }
+                        var switchVal = Math.abs((yf%4));
+                        switch (switchVal)  {
+                            case 0:
+                                northing = 25;
+                                break;
+
+                            case 1:
+                                northing = 50;
+                                break;
+
+                            case 2:
+                                northing = 75;
+                                break;
+
+                            case 3:
+                                northing = 00;
+                                break;
+
+                            case 4:
+                                northing = 80;
+                                break;
+                        }
+                    }
+
 
                     var latCurrent = parseFloat(southWestLat[x]);
                     if(x >0 && x != 6) {
@@ -478,21 +521,22 @@ $(function() {
                                 });
 
                                 gridline2.setMap(map);
+
+                                var markerHorizontal = new google.maps.Marker({
+                                    position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest},   
+                                    map: map,
+                                    icon: "<?php echo  base_url("assets/icons/"); ?>"+easting+".png"
+                                });
                             }
 
                             var markerVertical = new google.maps.Marker({
-                                position: {lat : (curNorth), lng: (curWest + ((tileWidth/40) * j))},   
+                                position: {lat : (curNorth), lng: (curWest + ((tileWidth/40) * j) + 0.028)},   
                                 map: map,
-                                // icon: "<?php // echo  base_url("assets/icons/"); ?>"+numberCountVerticalPrint+".png"
-                            });
-
-                            var markerHorizontal = new google.maps.Marker({
-                                position: {lat : (curNorth - ((tileHeight/25) * j)), lng: curEast},   
-                                map: map,
-                                // icon: "<?php //echo  base_url("assets/icons/"); ?>"+numberCountVerticalPrint+".png"
+                                icon: "<?php echo  base_url("assets/icons/"); ?>"+northing+".png"
                             });
                         }
                     }
+                        // break;
                 }
             }
         }
@@ -507,6 +551,7 @@ $(function() {
         var northEastLng = 81.8858971453276;
 
         var numberOfParts = 1;
+        var easting = 80;
 
         var tileWidth = (northEastLng - southWestLng) / numberOfParts;
         var tileHeight = (northEastLat - southWestLat) / numberOfParts;
@@ -514,6 +559,21 @@ $(function() {
         var linecolor = '#000000';
 
         for (var y = 0; y < 3; y++ ) {
+            switch (y) {
+
+                case 0 :
+                    northing = 00;
+                    break;
+
+                case 1 :
+                    northing = 25;
+                    break;
+
+                case 2 :
+                    northing = 50;
+                    break;
+
+            }
             var areaBounds = {
                 north: southWestLat + (tileHeight * (y+1)),
                 south: southWestLat + (tileHeight * y),
@@ -556,7 +616,7 @@ $(function() {
                         if(j%5 == 0) {
                           str = 2;
                         }
-                        if(1) {
+                        if(j%5 == 0) {
 
                             var gridline = new google.maps.Polyline({
                                 path: linecordinates,
@@ -568,7 +628,7 @@ $(function() {
 
                             gridline.setMap(map2);
                         }
-                        if(1) {
+                        if(j%5 == 0) {
                             if(j <= 25) {
 
                                 var gridline2 = new google.maps.Polyline({
@@ -580,7 +640,19 @@ $(function() {
                                 });
 
                                 gridline2.setMap(map2);
+
+                                var markerHorizontal = new google.maps.Marker({
+                                    position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest},   
+                                    map: map2,
+                                    icon: "<?php echo  base_url("assets/icons/"); ?>"+easting+".png"
+                                });
                             }
+
+                            var markerVertical = new google.maps.Marker({
+                                position: {lat : (curNorth), lng: (curWest + ((tileWidth/40) * j) + 0.028)},   
+                                map: map2,
+                                icon: "<?php echo  base_url("assets/icons/"); ?>"+northing+".png"
+                            });
                         }
                     }
         }
