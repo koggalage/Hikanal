@@ -134,12 +134,13 @@
         <div class="container-fluid">
         <?php if (isset($auth_user_id)) :?>
             <div class="navbar-header">
-                <a href="#" class="navbar-brand"><?php echo $auth_user_id; ?></a>
+                <a href="#" class="navbar-brand"><?php echo ucfirst($auth_username); ?></a>
             </div>
 	            <ul class="navbar-nav nav navbar-right">
 	                <li><a href="<?php echo base_url('index.php/map/view'); ?>">Map</a></li>
         
-	                <?php if($this->verify_role('admin')) : ?>
+                  <?php if($auth_level>3) : ?>
+	                <?php //if(isset($is_admin) && $is_admin) : ?> 
                         <li><a href="<?php echo base_url('index.php/users/user_list'); ?>">Users</a></li>
 	                	<li><a href="<?php echo base_url('index.php/users/login_history'); ?>">Login History</a></li>
 	                <?php endif; ?>

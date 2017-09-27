@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $config['levels_and_roles'] = [
-	'1' => 'viewer',
+	'1' => 'customer',
 	'6' => 'manager',
 	'9' => 'admin'
 ];
@@ -87,7 +87,7 @@ $config['max_allowed_attempts'] = 5;
 | 
 */
 
-$config['deny_access_at'] = 0;
+$config['deny_access_at'] = 10;
 
 /*
 | -----------------------------------------------------------------
@@ -258,7 +258,7 @@ $config['token_name']          = 'token';
 |
 */
 
-$config['recovery_code_expiration'] = 60 * 60 * 6;
+$config['recovery_code_expiration'] = 60 * 60 * 2;
 
 /*
 | -----------------------------------------------------------------

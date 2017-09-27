@@ -5,38 +5,48 @@
             </div>
         </div> 
         <div class="col-md-8 " style="border-radius: 0px; margin-top: 5%">
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-    
-            <h2>Add User</h2> <br/><br/> <br/><br/>
-            <form action="" method="post">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="name" placeholder="Name" required value="<?php echo !empty($user['name'])?$user['name']:''; ?>">
-                  <?php echo form_error('name','<span class="help-block">','</span>'); ?>
+            <div class="container">
+                <?php if (isset($suc_msg)) { ?>
+                    <div class="row">
+                            <div class="form-group col-md-6 col-md-offset-1">
+                                <div class="col-xs-12 alert alert-success fade in">
+                                    <!--<div class="form-group"></div>-->
+                                    <button data-dismiss="alert" class="close close-sm" type="button">
+                                        <i class="ti-close"></i>
+                                    </button>
+                                    User added Successfully
+                                </div>
+                            </div>
+                    </div>
+
+                <?php } ?>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-1">
+                
+                        <h2 align="center">Add User</h2> <br/><br/> <br/><br/>
+                        <!-- <form action="" method="post"> -->
+                        <?php echo form_open(base_url('index.php/users/registration'), array('class' => 'col-md-12')); ?>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="username" placeholder="Username" required value="">
+                              <?php echo form_error('username','<span class="help-block">','</span>'); ?>
+                            </div>
+                            <div class="form-group">
+                              <input type="password" class="form-control" name="passwd" placeholder="Password" required>
+                              <?php echo form_error('password','<span class="help-block">','</span>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="email" placeholder="Email Address" value="">
+                                <?php echo form_error('email','<span class="help-block">','</span>'); ?>
+                            </div>
+                            <input type="hidden" name="auth_level" value="1">
+                            <div class="form-group">
+                                <input type="submit" name="regisSubmit" class="btn-primary btn pull-right" value="Submit"/>
+                            </div>
+                        <!-- </form> -->
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" required value="<?php echo !empty($user['username'])?$user['username']:''; ?>">
-                  <?php echo form_error('username','<span class="help-block">','</span>'); ?>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" name="contact_no" placeholder="Contact Number" value="<?php echo !empty($user['contact_no'])?$user['contact_no']:''; ?>">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control" name="password" placeholder="Password" required>
-                  <?php echo form_error('password','<span class="help-block">','</span>'); ?>
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control" name="conf_password" placeholder="Confirm password" required>
-                  <?php echo form_error('conf_password','<span class="help-block">','</span>'); ?>
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="regisSubmit" class="btn-primary btn pull-right" value="Submit"/>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+            </div>
 </div>
 </body>
 </html>
