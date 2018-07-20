@@ -9,9 +9,9 @@ class Map extends MY_Controller {
     
     function __construct() {
         parent::__construct();
-        if(!$this->require_min_level(1)){
-            redirect('users/login');
-        }
+        // if(!$this->require_min_level(1)){
+        //     // redirect('login');
+        // }
 
         $this->load->library('form_validation');
         $this->load->model('user');
