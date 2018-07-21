@@ -43,7 +43,7 @@ $(function() {
         var mapOptions;
         myLatlng = new google.maps.LatLng(7.884472, 80.850632);
         mapOptions = {
-            zoom: 8,
+            zoom: 9,
             streetViewControl: false,
             mapTypeControl: false,
             zoomControl: false,
@@ -53,8 +53,6 @@ $(function() {
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         google.maps.event.addListenerOnce(map, 'idle', function() {
-            // drawGrid(map);
-            // drawLengthyRectangleGrid(map);
             drawRectangle(map);
             drawLengthyRectangle(map);
         });

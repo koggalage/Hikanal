@@ -13,6 +13,7 @@
     <div class="actions" >
         <a class="btn btn-primary btn-lg" id="download" target="_blank" style="display: none;"><i class="glyphicon glyphicon-download-alt"></i> Download as image</a>
         <a class="btn btn-danger btn-lg" id="tog" style=""><i class="glyphicon glyphicon glyphicon-cog"></i> Satalite View</a>
+        <a class="btn btn-success btn-lg" id="change" style="display: none;"><i class="glyphicon glyphicon glyphicon-cog"></i> Change Map</a>
         <input type="hidden" id="map-type" value="road">
     </div>
     <div class="container-fluid">
@@ -33,7 +34,7 @@
 
 <script>
 $(function() {
-    var c = '';
+    var canv = '';
 
     function initialize() {
         var myLatlng;    
@@ -121,7 +122,6 @@ $(function() {
             for (var y = 0; y < numberOfBoxes; y++ ) {
 
                 if (x == 5 && (y == 2 || y == 3 || y == 4)) {
-                    // drawLengthyRectangle(map, y);
                 }
 
                 else {
@@ -208,7 +208,6 @@ $(function() {
                 bounds: areaBounds
             });
 
-        console.log(lengthymaps[y]);
             var centerMark = new google.maps.Marker({
                 position: area.getBounds().getCenter(),
                 map: map,
@@ -247,11 +246,10 @@ $(function() {
         rectangle.setMap(map);
         rectangle.addListener('dragend', function() {
             $("#map-canvas-wrapper").removeClass('col-md-offset-4');
-            // $("#map-canvas-wrapper").hide();
+            $("#map-canvas-wrapper").hide();
             $("#map-canvas2-wrapper").show();
             if (strictBounds.contains(rectangle.getBounds().getNorthEast())) {
                 showSelectedAreaWithGrid();
-                // drawGrid();
             }   else {
                 rectangle.setBounds(inbounds);
                 map.setCenter(new google.maps.LatLng(centerLat, centerLng));
@@ -279,7 +277,6 @@ $(function() {
 
         var tileWidth = (northEastLng - southWestLng) / numberOfParts;
         var tileHeight = (northEastLat - southWestLat) / numberOfParts;
-            // console.log
 
         var kiloMeterWidth = 0.0092156625;
 
@@ -648,6 +645,8 @@ $(function() {
     function showSelectedAreaWithGrid(event) {
         
         $("#overlayLoading").show();
+        $("#map-canvas2-wrapper").attr("style","overflow: visible;");
+
         var nEast = rectangle.getBounds().getNorthEast();
         var sWest = rectangle.getBounds().getSouthWest();
 
@@ -680,19 +679,17 @@ $(function() {
         drawLengthyRectangleGrid(map2);
 
         google.maps.event.addListener(map2, 'idle', function(){
-            // console.log("hi");
             google.maps.event.addListener(map2, 'tilesloaded', function(){
-                // console.log("hi2");
                 
-                $("#map-canvas2-wrapper").attr("style","overflow: visible;");
+                // $("#map-canvas2-wrapper").attr("style","overflow: visible;");
                 html2canvas($("#map-canvas2"), {
                         useCORS: true,
 
-                onrendered: function(canvas) {
-                    c = canvas;
+                    onrendered: function(canvas) {
+                            canv = canvas;
                             $("#download").show(); 
-                            // $("#tog").show(); 
-                            $("#map-canvas2-wrapper").attr("style","overflow: scroll;");
+                            $("#change").show(); 
+                            // $("#map-canvas2-wrapper").attr("style","overflow: scroll;");
                             $("#overlayLoading").hide();
 
                         }
@@ -703,7 +700,16 @@ $(function() {
         $("#map-canvas2").draggable({ scroll: false });
 
         $("#download").click(function() {
-            download(c.toDataURL("image/png"), "CustomMap.png", "image/png");
+            download(canv.toDataURL("image/png"), "CustomMap.png", "image/png");
+
+        });
+
+        $("#change").click(function() {
+            $("#download").hide(); 
+            $("#map-canvas2-wrapper").hide();
+            $("#map-canvas-wrapper").show();
+            $(this).hide();
+
         });
 
         $("#tog").click(function() {
