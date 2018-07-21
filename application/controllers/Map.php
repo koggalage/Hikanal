@@ -10,7 +10,7 @@ class Map extends MY_Controller {
     function __construct() {
         parent::__construct();
         // if(!$this->require_min_level(1)){
-        //     // redirect('login');
+        //     redirect('users/login');
         // }
 
         $this->load->library('form_validation');
@@ -22,5 +22,12 @@ class Map extends MY_Controller {
         $data['page_title'] = "Customize Map";
         $this->load->view('header', $data);
         $this->load->view('map/mapp', $data);
+    }
+
+    public function view_app(){
+        $data = array();
+        $data['page_title'] = "Customize Map";
+        $this->load->view('header', $data);
+        $this->load->view('map/mapp_app', $data);
     }
 }
