@@ -21,21 +21,11 @@
                 <div id="map-canvas" class="container-fluid">
                 </div>
             </div>
-<!--             <div class="col-md-8">
-                <div id="map-canvas2-wrapper" style="display: none">
 
-                    <div id="map-canvas2"></div>
-                </div>
-            </div> -->
         </div>
         <div class="row">
-<!--             <div class="col-md-4 col-md-offset-4" id="map-canvas-wrapper">
-                <div id="map-canvas" class="container-fluid">
-                </div>
-            </div> -->
             <div class="col-md-12">
                 <div id="map-canvas2-wrapper" style="display: none">
-
                     <div id="map-canvas2"></div>
                 </div>
             </div>
@@ -275,59 +265,6 @@ $(function() {
         });
     }
 
-
-    function showSelectedAreaWithGridNew(event) {
-        var southWestLat = 7.45282838800632;
-        var southWestLng = 80.7737578865776;
-        var northEastLat = 8.13087938800633;
-        var northEastLng = 81.8676373865776;
-
-        var kiloMeterWidth = (northEastLng - southWestLng) / 120;
-        // var kiloMeterWidth = 0.009236;
-        var kiloMeterWidth = 0.0095056625;
-        var kiloMeterHeight = (northEastLat - southWestLat) / 75;
-        // var kiloMeterHeight = 0.009045780000000129;
-        console.log(kiloMeterWidth);
-
-        var northMostLat = 9.939015388006320;
-        var southMostLat = 5.870709388006320;
-        var westMostLng = 79.679878386577600;
-        var eastMostLng = 81.884957145327600;
-        
-        // $("#overlayLoading").show();
-        var nEast = rectangle.getBounds().getNorthEast();
-        var sWest = rectangle.getBounds().getSouthWest();
-
-        var bounds = new google.maps.LatLngBounds(sWest,nEast);
-
-        var type_id = google.maps.MapTypeId.ROADMAP;
-        var linecolor = '#000000';
-
-        if ($("#map-type").val() == "sat") {
-            type_id = google.maps.MapTypeId.SATELLITE;
-            linecolor = '#FFFFFF';
-        }
-
-        map2 = new google.maps.Map(document.getElementById('map-canvas2'), {
-            scrollwheel: false,
-            mapTypeControl: false,
-            draggable: false,
-            zoomControl: false,
-            fullscreenControl: false,
-            disableDoubleClickZoom: true,
-            disableDefaultUI: false,
-            streetViewControl : false,
-            mapTypeId: type_id
-        });
-
-        map2.fitBounds(bounds);
-        map2.setZoom(14);
-        drawGrid(map2);
-        drawLengthyRectangleGrid(map2);
-
-
-    }
-
     function drawGrid(map) {
         $("#overlayLoading").show();
 
@@ -428,10 +365,6 @@ $(function() {
                         northing = 85;
                     } else {
                         var yf = y - blody;
-                        // if (x>0) { yf = y -2 }
-                        // console.log((yf%4) +"yfm")
-                        // console.log((yf) +"yf")
-                        // console.log(x +"x")
                         if (yf<0) {
                             yf = 3;
                         }
@@ -546,26 +479,31 @@ $(function() {
                                     if (icnNm >= 100) {
                                         icnNm = icnNm - 100;
                                     }
-                                    var markerHorizontal = new google.maps.Marker({
-                                        position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest + ((tileWidth/40) * 5*k)},   
+                                    if (j%5 == 0) {
+                                        var markerHorizontal = new google.maps.Marker({
+                                            position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest + ((tileWidth/40) * 5*k)},   
+                                            map: map,
+                                            icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
+                                        });
+                                    }
+                                }
+                            }
+                            for (var m = 0; m < 5; m++) {
+                                if (northing == 00) {
+                                    northing = 100;
+                                }
+                                var icnNm = (northing - (5*m));
+                                if (icnNm >= 100) {
+                                    icnNm = icnNm - 100;
+                                }
+                                if (j%5 == 0) {
+
+                                    var markerVertical = new google.maps.Marker({
+                                        position: {lat : (curNorth - ((tileHeight/25) * 5*m)), lng: (curWest + ((tileWidth/40) * j) + 0.028)},   
                                         map: map,
                                         icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
                                     });
                                 }
-                            }
-                            for (var m = 0; m < 5; m++) {
-                                    if (northing == 00) {
-                                        northing = 100;
-                                    }
-                                    var icnNm = (northing - (5*m));
-                                    if (icnNm >= 100) {
-                                        icnNm = icnNm - 100;
-                                    }
-                                var markerVertical = new google.maps.Marker({
-                                    position: {lat : (curNorth - ((tileHeight/25) * 5*m)), lng: (curWest + ((tileWidth/40) * j) + 0.028)},   
-                                    map: map,
-                                    icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
-                                });
                             }
                         }
                     }
@@ -679,27 +617,32 @@ $(function() {
                                     if (icnNm >= 100) {
                                         icnNm = icnNm - 100;
                                     }
-                                    var markerHorizontal = new google.maps.Marker({
-                                        position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest + ((tileWidth/42) * 5*k)},   
-                                        map: map2,
-                                        icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
-                                    });
+                                    if (j%5 == 0) {
+
+                                        var markerHorizontal = new google.maps.Marker({
+                                            position: {lat : (curNorth - ((tileHeight/25) * j) - 0.03), lng: curWest + ((tileWidth/42) * 5*k)},   
+                                            map: map2,
+                                            icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
+                                        });
+                                    }
                                 }
                             }
 
                             for (var m = 0; m < 5; m++) {
-                                    if (northing == 00) {
-                                        northing = 100;
-                                    }
-                                    var icnNm = (northing - (5*m));
-                                    if (icnNm >= 100) {
-                                        icnNm = icnNm - 100;
-                                    }
-                                var markerVertical = new google.maps.Marker({
-                                    position: {lat : (curNorth - ((tileHeight/25) * 5*m)), lng: (curWest + ((tileWidth/42) * j) + 0.028)},   
-                                    map: map2,
-                                    icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
-                                });
+                                if (northing == 00) {
+                                    northing = 100;
+                                }
+                                var icnNm = (northing - (5*m));
+                                if (icnNm >= 100) {
+                                    icnNm = icnNm - 100;
+                                }
+                                if (j%5 == 0) {
+                                    var markerVertical = new google.maps.Marker({
+                                        position: {lat : (curNorth - ((tileHeight/25) * 5*m)), lng: (curWest + ((tileWidth/42) * j) + 0.028)},   
+                                        map: map2,
+                                        icon: "<?php echo  base_url("assets/icons/"); ?>"+icnNm+".png"
+                                    });
+                                }
                             }
                         }
                     }
@@ -739,6 +682,7 @@ $(function() {
         map2.setZoom(14);
 
         drawGrid(map2);
+        drawLengthyRectangleGrid(map2);
 
         google.maps.event.addListener(map2, 'idle', function(){
             // console.log("hi");
