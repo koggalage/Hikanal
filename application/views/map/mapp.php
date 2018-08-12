@@ -13,7 +13,7 @@
     <div class="actions" >
         <a class="btn btn-primary btn-lg" id="download" target="_blank" style="display: none;"><i class="glyphicon glyphicon-download-alt"></i> Download as image</a>
         <a class="btn btn-danger btn-lg" id="tog" style=""><i class="glyphicon glyphicon glyphicon-cog"></i> Satalite View</a>
-        <a class="btn btn-success btn-lg" id="change" style="display: none;"><i class="glyphicon glyphicon glyphicon-cog"></i> Change Map</a>
+        <a class="btn btn-success btn-lg" id="change" style="display: none;"><i class="glyphicon glyphicon glyphicon-cog"></i> New Map</a>
         <input type="hidden" id="map-type" value="road">
     </div>
     <div class="container-fluid">
@@ -299,8 +299,6 @@ $(function() {
             81.503010886577600,
             79.388177186577600 + (kiloMeterWidth * 2)
         ];
-
-        var mapNumbers = ["85", "79", "73", "66", "59", "52", "46", "40", "34", "29", "24", "19", "15", "11", "07", "03", "01", "90", "86", "80", "74", "67", "60", "53", "47", "41", "35", "30", "25", "20", "16", "12", "08", "04", "02", "91", "87", "81", "75", "68", "61", "54", "48", "42", "36", "31", "26", "21", "17", "13", "09", "05", "92", "88", "82", "76", "69", "62", "55", "49", "43", "37", "32", "27", "22", "18", "14", "10",  "89", "83", "77", "70", "63", "56", "50", "44", "38", "33", "28", "23", "84", "78", "51", "45", "39", "06"];
 
         var z;
         var t;
@@ -706,9 +704,11 @@ $(function() {
 
         $("#change").click(function() {
             $("#download").hide(); 
+            $("#map-canvas-wrapper").addClass('col-md-offset-4');
             $("#map-canvas2-wrapper").hide();
             $("#map-canvas-wrapper").show();
             $(this).hide();
+            initialize(); 
 
         });
 

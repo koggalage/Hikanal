@@ -167,10 +167,10 @@ class Users extends MY_Controller {
                     'rules' => [
                         'trim',
                         'required',
-                        // [ 
-                        //     '_check_password_strength', 
-                        //     [ $this->validation_callables, '_check_password_strength' ] 
-                        // ]
+                        [ 
+                            '_check_password_strength', 
+                            [ $this->validation_callables, '_check_password_strength' ] 
+                        ]
                     ],
                     'errors' => [
                         'required' => 'The password field is required.'

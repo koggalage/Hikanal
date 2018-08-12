@@ -180,13 +180,13 @@ class Login_controller extends MY_Controller
 	{
 		// Customize this array for your user
 		$user_data = [
-			'username'   => 'skunkbot',
-			'passwd'     => 'PepeLePew7',
-			'email'      => 'skunkbot@example.com',
+			'username'   => 'admin',
+			'passwd'     => 'Admin1234',
+			'email'      => 'Admin1234@example.com',
 			'auth_level' => '9', // 9 if you want to login @ examples/index.
 		];
 
-		$this->is_logged_in();
+		// $this->is_logged_in();
 
 		echo $this->load->view('examples/page_header', '', TRUE);
 
